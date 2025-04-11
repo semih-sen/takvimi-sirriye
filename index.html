@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sırmetre - Takvîm-i Sırriyye Çevirici</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #111;
+      color: #eee;
+      text-align: center;
+      padding: 2rem;
+    }
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin: 0.5rem;
+    }
+    .result {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+    }
+    .today-info {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background-color: #222;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sırmetre</h1>
+  <p>Miladi tarihi gir, Takvîm-i Sırriyye tarihini öğren!</p>
+
+  <div class="today-info" id="bugun"></div>
+
+  <input type="date" id="miladiTarih">
+  <button onclick="cevir()">Çevir</button>
+
+  <div class="result" id="sonuc"></div>
+
+  <script>
+    const aylar = [
+      "İlham", "Tecelli", "Keşf", "Berzah", "Sır", "Zuhur", "Miftah",
+      "Mi'râc", "Nûr", "Rüyâ", "Sükûn", "Nefes", "Şehâdet"
+    ];
+    const gunler = [
+      "Yevmü'l-Qupehlî", "Yevmü'l-Arazicî", "Yevmü'l-Kahyaoğlu",
+      "Yevmü'l-Enginoik", "Yevmü'd-Duranî", "Yevmü'l-Ekizî", "Yevmü'l-Mehdiyye"
+    ];
+
+    function tarihCevir(tarih) {
+      const baslangic = new Date('2023-03-21');
+      const farkGun = Math.floor((tarih - baslangic) / (1000 * 60 * 60 * 24));
+
+      const yillar = Math.floor(farkGun / 364) + 1;
+      let kalanGun = farkGun % 364;
+
+      if (kalanGun === 363) {
+        return {
+          ozelGun: true,
+          sonuc: `Bugün ${yillar}. yıl <strong>Leyle-i Sır</strong> gecesidir.`
+        };
+      }
+
+      const ay = Math.floor(kalanGun / 28);
+      const gun = (kalanGun % 28) + 1;
+      const haftaninGunu = gunler[(tarih.getDay() + 6) % 7]; // Pzt 0 olsun diye kaydırdık
+
+      // Özel gün kontrolü
+      let ozel = "";
+      if (ay === 5 && gun === 21) ozel = " - Bugün <strong>Zuhur Gecesi</strong>!";
+      if (ay === 12 && gun <= 7) ozel = " - <em>Rüyâ Haftası</em> içindesin.";
+
+      return {
+        ozelGun: false,
+        sonuc: `${yillar}. yıl, ${aylar[ay]} Ayı, ${gun}. gün (${haftaninGunu})${ozel}`
+      };
+    }
+
+    function cevir() {
+      const girilenTarih = document.getElementById('miladiTarih').value;
+      if (!girilenTarih) return;
+
+      const tarih = new Date(girilenTarih);
+      const ceviriSonucu = tarihCevir(tarih);
+      document.getElementById('sonuc').innerHTML = ceviriSonucu.sonuc;
+    }
+
+    // Sayfa yüklendiğinde bugünün tarihini göster
+    function bugunGoster() {
+      const bugun = new Date();
+      const miladiTarih = bugun.toISOString().split('T')[0];
+      document.getElementById('miladiTarih').value = miladiTarih;
+      
+      const ceviriSonucu = tarihCevir(bugun);
+      document.getElementById('bugun').innerHTML = 
+        `<h3>Bugün (${bugun.toLocaleDateString('tr-TR')})</h3>
+         <p>${ceviriSonucu.sonuc}</p>`;
+    }
+
+    // Sayfa yüklendiğinde bugunGoster fonksiyonunu çağır
+    window.onload = bugunGoster;
+  </script>
+</body>
+</html>
