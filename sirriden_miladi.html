@@ -43,6 +43,20 @@
             text-decoration: none;
             margin: 0 1rem;
         }
+        .chemical-month {
+            color: #ff9a9e;
+        }
+        .metaphysical-month {
+            color: #a0e7e5;
+        }
+        .secret-month {
+            color: #d4af37;
+        }
+        .zero-day {
+            color: #ffffff;
+            font-weight: bold;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -56,21 +70,22 @@
         
         <div>
             <label for="sirriGun">Gün:</label>
-            <input type="number" id="sirriGun" min="1" max="28" value="1">
+            <input type="number" id="sirriGun" min="0" max="29" value="1">
             
             <label for="sirriAy">Ay:</label>
             <select id="sirriAy">
-                <option value="0">İlham</option>
-                <option value="1">Tecelli</option>
-                <option value="2">Keşf</option>
-                <option value="3">Berzah</option>
-                <option value="4">Sır</option>
-                <option value="5">Zuhur</option>
-                <option value="6">Miftah</option>
-                <option value="7">Mi'râc</option>
-                <option value="8">Nûr</option>
-                <option value="9">Rüyâ</option>
-                <option value="10">Sükûn</option>
+                <option value="-1">Yevme'l Sıfr</option>
+                <option value="0">Zehr-i Cihan</option>
+                <option value="1">Shalgum</option>
+                <option value="2">Hadid</option>
+                <option value="3">Muriat</option>
+                <option value="4">Zarnikh</option>
+                <option value="5">Mavera</option>
+                <option value="6">İlham</option>
+                <option value="7">Keşf</option>
+                <option value="8">Berzah</option>
+                <option value="9">Mi'râc</option>
+                <option value="10">Nûr</option>
                 <option value="11">Nefes</option>
                 <option value="12">Şehâdet</option>
             </select>
@@ -93,9 +108,34 @@
 
     <script>
         const aylar = [
-            "İlham", "Tecelli", "Keşf", "Berzah", "Sır", "Zuhur",
-            "Miftah", "Mi'râc", "Nûr", "Rüyâ", "Sükûn", "Nefes", "Şehâdet"
+            {name: "Zehr-i Cihan", type: "chemical"},
+            {name: "Shalgum", type: "chemical"},
+            {name: "Hadid", type: "chemical"},
+            {name: "Muriat", type: "chemical"},
+            {name: "Zarnikh", type: "chemical"},
+            {name: "Mavera", type: "chemical"},
+            {name: "İlham", type: "metaphysical"},
+            {name: "Keşf", type: "metaphysical"},
+            {name: "Berzah", type: "metaphysical"},
+            {name: "Mi'râc", type: "metaphysical"},
+            {name: "Nûr", type: "metaphysical"},
+            {name: "Nefes", type: "metaphysical"},
+            {name: "Şehâdet", type: "secret"}
         ];
+
+        // Artık yıl kontrolü (4 yılda bir)
+        function isArtikYil(yil) {
+            return (yil % 4) === 0;
+        }
+
+        function getMonthClass(ayIndex) {
+            if (ayIndex === -1) return "zero-day";
+            const monthType = aylar[ayIndex].type;
+            if (monthType === "chemical") return "chemical-month";
+            if (monthType === "metaphysical") return "metaphysical-month";
+            if (monthType === "secret") return "secret-month";
+            return "";
+        }
 
         function cevir() {
             // Kullanıcı girdilerini al
@@ -109,28 +149,72 @@
                 yil = -yil;
             }
             
-            // Başlangıç tarihi (21 Mart 2023)
-            const baslangic = new Date("2023-03-21");
+            // Başlangıç tarihi (13 Nisan 2022)
+            const baslangic = new Date("2022-04-13");
             
-            // Toplam gün sayısını hesapla
-            const toplamGun = (yil - 1) * 364 + ay * 28 + (gun - 1);
-            
-            // Miladî tarihi hesapla
-            const miladiTarih = new Date(baslangic);
-            miladiTarih.setDate(baslangic.getDate() + toplamGun);
-            
-            // Özel gün kontrolü (Leyle-i Sır)
-            if (gun === 28 && ay === 12) {
+            // Yevme'l Sıfr kontrolü (0. gün)
+            if (ay === -1) {
+                // Yılın ilk günü (0. gün)
+                const toplamGun = (yil - 1) * 365;
+                if (isArtikYil(Math.abs(yil))) {
+                    toplamGun += Math.floor((Math.abs(yil)-1)/4);
+                }
+                
+                const miladiTarih = new Date(baslangic);
+                miladiTarih.setDate(baslangic.getDate() + toplamGun);
+                
                 document.getElementById("sonuc").innerHTML = `
-                    <strong>Leyle-i Sır Gecesi</strong><br>
+                    <strong><span class="zero-day">Yevme'l Sıfr (∅/${Math.abs(yil)} ${yilTipi})</span></strong><br>
                     Miladî karşılığı: ${miladiTarih.toLocaleDateString('tr-TR')}
                 `;
                 return;
             }
             
+            // Normal günler için hesaplama
+            // Önceki yılların toplam gün sayısı
+            let toplamGun = (yil - 1) * 365;
+            
+            // Artık yıl düzeltmesi
+            if (yil > 0) {
+                toplamGun += Math.floor((yil-1)/4);
+            } else {
+                toplamGun -= Math.floor((Math.abs(yil)-1)/4);
+            }
+            
+            // Mevcut yılın günlerini ekle (0. günü atladık)
+            toplamGun += 1; // Yevme'l Sıfr'ı geçtik
+            
+            // Ayları ekle (ilk 12 ay 28 gün)
+            if (ay < 12) {
+                toplamGun += ay * 28;
+            } else {
+                // Şehadet ayı için 12*28 = 336 gün
+                toplamGun += 336;
+            }
+            
+            // Günleri ekle
+            toplamGun += gun - 1;
+            
+            // Miladî tarihi hesapla
+            const miladiTarih = new Date(baslangic);
+            miladiTarih.setDate(baslangic.getDate() + toplamGun);
+            
+            // Özel gün kontrolü
+            let ozelNot = "";
+            if (ay === 5 && gun === 21) {
+                ozelNot = "<br>★ <strong>Zuhur Gecesi</strong>";
+            }
+            if (ay === 12 && gun <= 7) {
+                ozelNot = "<br>★ <em>Rüyâ Haftası</em>";
+            }
+            
+            // Ay adını ve stilini al
+            const monthClass = getMonthClass(ay);
+            const monthName = ay === -1 ? "Yevme'l Sıfr" : aylar[ay].name;
+            
             // Sonucu göster
             document.getElementById("sonuc").innerHTML = `
-                <strong>${gun} ${aylar[ay]} ${Math.abs(yil)} ${yilTipi}</strong><br>
+                <strong>${gun} <span class="${monthClass}">${monthName}</span> ${Math.abs(yil)} ${yilTipi}</strong>${ozelNot}<br>
                 Miladî karşılığı: ${miladiTarih.toLocaleDateString('tr-TR')}
             `;
         }
