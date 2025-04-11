@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sırmetre - Sırrî'den Miladî'ye Çevirici</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #111;
+            color: #eee;
+            text-align: center;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        input, select, button {
+            padding: 0.5rem;
+            font-size: 1rem;
+            margin: 0.5rem;
+            background-color: #222;
+            color: #eee;
+            border: 1px solid #444;
+        }
+        button {
+            cursor: pointer;
+            background-color: #d4af37;
+            color: #111;
+            border: none;
+            font-weight: bold;
+        }
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #222;
+            border-radius: 5px;
+            font-size: 1.2rem;
+        }
+        .nav-link {
+            color: #d4af37;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sırrî'den Miladî'ye Çevirici</h1>
+        
+        <div style="margin: 1rem 0">
+            <a href="index.html" class="nav-link">Miladî'den Sırrî'ye</a>
+            <a href="bilgiler.html" class="nav-link">Ehli Sır Bilgileri</a>
+        </div>
+        
+        <div>
+            <label for="sirriGun">Gün:</label>
+            <input type="number" id="sirriGun" min="1" max="28" value="1">
+            
+            <label for="sirriAy">Ay:</label>
+            <select id="sirriAy">
+                <option value="0">İlham</option>
+                <option value="1">Tecelli</option>
+                <option value="2">Keşf</option>
+                <option value="3">Berzah</option>
+                <option value="4">Sır</option>
+                <option value="5">Zuhur</option>
+                <option value="6">Miftah</option>
+                <option value="7">Mi'râc</option>
+                <option value="8">Nûr</option>
+                <option value="9">Rüyâ</option>
+                <option value="10">Sükûn</option>
+                <option value="11">Nefes</option>
+                <option value="12">Şehâdet</option>
+            </select>
+            
+            <label for="sirriYil">Yıl:</label>
+            <input type="number" id="sirriYil" min="1" value="1">
+            
+            <select id="yilTipi">
+                <option value="RS">RS (Rüyadan Sonra)</option>
+                <option value="RO">RÖ (Rüyadan Önce)</option>
+            </select>
+        </div>
+        
+        <button onclick="cevir()">Çevir</button>
+        
+        <div class="result" id="sonuc">
+            Sonuç burada görünecek...
+        </div>
+    </div>
+
+    <script>
+        const aylar = [
+            "İlham", "Tecelli", "Keşf", "Berzah", "Sır", "Zuhur",
+            "Miftah", "Mi'râc", "Nûr", "Rüyâ", "Sükûn", "Nefes", "Şehâdet"
+        ];
+
+        function cevir() {
+            // Kullanıcı girdilerini al
+            const gun = parseInt(document.getElementById("sirriGun").value);
+            const ay = parseInt(document.getElementById("sirriAy").value);
+            let yil = parseInt(document.getElementById("sirriYil").value);
+            const yilTipi = document.getElementById("yilTipi").value;
+            
+            // Yıl tipine göre ayarla (RÖ ise negatif yap)
+            if (yilTipi === "RO") {
+                yil = -yil;
+            }
+            
+            // Başlangıç tarihi (21 Mart 2023)
+            const baslangic = new Date("2023-03-21");
+            
+            // Toplam gün sayısını hesapla
+            const toplamGun = (yil - 1) * 364 + ay * 28 + (gun - 1);
+            
+            // Miladî tarihi hesapla
+            const miladiTarih = new Date(baslangic);
+            miladiTarih.setDate(baslangic.getDate() + toplamGun);
+            
+            // Özel gün kontrolü (Leyle-i Sır)
+            if (gun === 28 && ay === 12) {
+                document.getElementById("sonuc").innerHTML = `
+                    <strong>Leyle-i Sır Gecesi</strong><br>
+                    Miladî karşılığı: ${miladiTarih.toLocaleDateString('tr-TR')}
+                `;
+                return;
+            }
+            
+            // Sonucu göster
+            document.getElementById("sonuc").innerHTML = `
+                <strong>${gun} ${aylar[ay]} ${Math.abs(yil)} ${yilTipi}</strong><br>
+                Miladî karşılığı: ${miladiTarih.toLocaleDateString('tr-TR')}
+            `;
+        }
+    </script>
+</body>
+</html>
