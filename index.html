@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -104,6 +104,144 @@
 
     // Sayfa yüklendiğinde bugunGoster fonksiyonunu çağır
     window.onload = bugunGoster;
+  </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sırmetre - Üçlü Takvim Sistemi</title>
+  <style>
+    /* Mevcut stilere eklemeler */
+    .triple-date {
+      display: flex;
+      justify-content: space-around;
+      margin: 1rem 0;
+      background: #222;
+      padding: 1rem;
+      border-radius: 5px;
+    }
+    .date-box {
+      text-align: center;
+      padding: 0.5rem;
+    }
+    .hijri-info {
+      font-size: 0.9rem;
+      color: #8abeb7; /* Yeşil-mavi tonu */
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigasyon menüsü -->
+  <div style="text-align: center; margin: 1rem 0;">
+    <a href="bilgiler.html" style="color: #d4af37; text-decoration: none;">Ehli Sır Bilgileri</a> | 
+    <a href="#" onclick="showHijriInfo()" style="color: #8abeb7;">Hicrî Bilgiler</a>
+  </div>
+
+  <!-- Üçlü tarih gösterimi -->
+  <div class="triple-date" id="tripleDate">
+    <div class="date-box">
+      <div>Miladî</div>
+      <div id="gregorianDate">--</div>
+    </div>
+    <div class="date-box">
+      <div>Hicrî</div>
+      <div id="hijriDate">--</div>
+    </div>
+    <div class="date-box">
+      <div>Sırrî</div>
+      <div id="sirriDate">--</div>
+    </div>
+  </div>
+
+  <!-- Hicrî bilgi paneli (başlangıçta gizli) -->
+  <div id="hijriInfoPanel" style="display: none; background: #1a2f2b; padding: 1rem; margin: 1rem 0; border-left: 3px solid #8abeb7;">
+    <h3>Hicrî Takvim Notları</h3>
+    <p id="hijriSpecialDay"></p>
+    <p><em>Hicrî ay: <span id="currentHijriMonth"></span></em></p>
+  </div>
+
+  <script>
+    // Hicrî ay isimleri
+    const hijriMonths = [
+      "Muharrem", "Safer", "Rebiülevvel", "Rebiülahir",
+      "Cemaziyelevvel", "Cemaziyelahir", "Recep", "Şaban",
+      "Ramazan", "Şevval", "Zilkade", "Zilhicce"
+    ];
+
+    // Hicrî özel günler
+    const hijriSpecialDays = {
+      "1-10": "Aşure Günü",
+      "7-27": "Miraç Kandili",
+      "8-15": "Berat Kandili",
+      "9-27": "Kadir Gecesi",
+      "12-10": "Kurban Bayramı (1. Gün)"
+    };
+
+    // Hicrî tarih hesaplama
+    function getHijriDate(gregorianDate) {
+      // Basit Hicrî hesaplama (tam doğruluk için API önerilir)
+      const hijriOffset = 579; // 2023 için yaklaşık fark
+      const hijriYear = Math.floor((gregorianDate.getFullYear() * 354 - hijriOffset) / 365);
+      const dayOfYear = Math.floor((gregorianDate - new Date(gregorianDate.getFullYear(), 0, 0)) / 86400000);
+      const hijriMonth = Math.floor((dayOfYear * 12) / 365);
+      const hijriDay = Math.floor(dayOfYear - (hijriMonth * 29.53)) + 1;
+      
+      return {
+        year: hijriYear,
+        month: hijriMonth,
+        day: hijriDay,
+        monthName: hijriMonths[hijriMonth]
+      };
+    }
+
+    // Hicrî özel gün kontrolü
+    function checkHijriSpecialDay(hijriDate) {
+      const key = `${hijriDate.month+1}-${hijriDate.day}`;
+      return hijriSpecialDays[key] || null;
+    }
+
+    // Tüm tarihleri güncelle
+    function updateAllDates() {
+      const today = new Date();
+      
+      // Miladî
+      document.getElementById('gregorianDate').textContent = 
+        today.toLocaleDateString('tr-TR');
+      
+      // Hicrî
+      const hijri = getHijriDate(today);
+      document.getElementById('hijriDate').textContent = 
+        `${hijri.day} ${hijri.monthName} ${hijri.year}`;
+      document.getElementById('currentHijriMonth').textContent = hijri.monthName;
+      
+      // Sırrî (mevcut fonksiyon)
+      const sirri = tarihCevir(today);
+      document.getElementById('sirriDate').textContent = 
+        sirri.sonuc.replace(/<[^>]+>/g, '').split('(')[0];
+    }
+
+    // Hicrî bilgi panelini göster
+    function showHijriInfo() {
+      const panel = document.getElementById('hijriInfoPanel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+      
+      const today = new Date();
+      const hijri = getHijriDate(today);
+      const specialDay = checkHijriSpecialDay(hijri);
+      
+      document.getElementById('hijriSpecialDay').textContent = 
+        specialDay ? `★ Özel Gün: ${specialDay}` : "Bu ayın bilinen özel günü yok";
+    }
+
+    // Sayfa yüklendiğinde çalıştır
+    window.onload = function() {
+      bugunGoster(); // Mevcut fonksiyon
+      updateAllDates();
+    };
   </script>
 </body>
 </html>
