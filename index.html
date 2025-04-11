@@ -58,6 +58,7 @@
         >Hicrî Bilgiler</a
       >
     </div>
+    <div class="today-info" id="bugun"></div>
     <p>Miladi tarihi gir, Takvîm-i Sırriyye tarihini öğren!</p>
 
     <div class="triple-date" id="tripleDate">
@@ -104,14 +105,14 @@
         "Şehâdet",
       ];
       const gunler = [
-        "Yevmü'l-Qupehlî",
-        "Yevmü'l-Arazicî",
-        "Yevmü'l-Kahyaoğlu",
-        "Yevmü'l-Enginoik",
-        "Yevmü'd-Duranî",
-        "Yevmü'l-Ekizî",
-        "Yevmü'l-Mehdiyye",
-      ];
+  "Fetih",
+  "Tefekkür",
+  "Hikmet",
+  "Kelam",
+  "Zikir",
+  "Meydan",
+  "Sükûn"
+];
       const hijriMonths = [
       "Muharrem", "Safer", "Rebiülevvel", "Rebiülahir",
       "Cemaziyelevvel", "Cemaziyelahir", "Recep", "Şaban",
@@ -189,14 +190,28 @@
         const baslangic = new Date("2023-03-21");
         const farkGun = Math.floor((tarih - baslangic) / (1000 * 60 * 60 * 24));
 
-        const yillar = Math.floor(farkGun / 364) + 1;
+        // Yıl hesaplamasını RÖ/RS olarak güncelle
+        const yillar = Math.floor(farkGun / 364);
         let kalanGun = farkGun % 364;
+        
+        // Yıl gösterimini RÖ/RS olarak ayarla
+        let yilGosterim;
+        if (yillar < 0) {
+          yilGosterim = `${Math.abs(yillar)} RÖ`; // Rüyadan Önce
+        } else {
+          yilGosterim = `${yillar+1} RS`; // Rüyadan Sonra
+        }
 
         if (kalanGun === 363) {
           return {
             ozelGun: true,
-            sonuc: `Bugün ${yillar}. yıl <strong>Leyle-i Sır</strong> gecesidir.`,
+            sonuc: `Bugün ${yilGosterim} yılı <strong>Leyle-i Sır</strong> gecesidir.`,
           };
+        }
+
+        // Negatif günleri pozitife çevir (RÖ tarihleri için)
+        if (kalanGun < 0) {
+          kalanGun += 364;
         }
 
         const ay = Math.floor(kalanGun / 28);
@@ -211,7 +226,7 @@
 
         return {
           ozelGun: false,
-          sonuc: `${yillar}. yıl, ${aylar[ay]} Ayı, ${gun}. gün (${haftaninGunu})${ozel}`,
+          sonuc: `${gun} ${aylar[ay]} ${yilGosterim} (${haftaninGunu})${ozel}`,
         };
       }
 
