@@ -1,218 +1,500 @@
+<!-- <!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Takvîm-i Sırriyye | Sırrî'den Miladî'ye</title>
+    <style>
+      body {
+        font-family: 'Georgia', serif;
+        background: linear-gradient(to bottom, #0a0a0a, #1a1a1a);
+        color: #e0d7c6;
+        text-align: center;
+        padding: 2rem;
+      }
+      .navbar {
+        margin-bottom: 2rem;
+      }
+      .navbar a {
+        color: #d4af37;
+        text-decoration: none;
+        margin: 0 1rem;
+        font-weight: bold;
+      }
+      input, select, button {
+        padding: 0.5rem;
+        font-size: 1rem;
+        margin: 0.5rem;
+        background: #222;
+        color: #eee;
+        border: 1px solid #444;
+        border-radius: 4px;
+      }
+      button {
+        background: #d4af37;
+        color: #111;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .result {
+        margin-top: 2rem;
+        font-size: 1.3rem;
+        background: #1f1f1f;
+        padding: 1rem;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="index.html">Miladî'den Sırrî'ye</a>
+      <a href="sirriden_miladi.html">Sırrî'den Miladî'ye</a>
+      <a href="bilgiler.html">Ehlî Sır Bilgileri</a>
+    </div>
+    <h1>Takvîm-i Sırriyye</h1>
+    <p>Sırrî tarihi giriniz, zahir âleme açılan geçidi görünüz...</p>
+    <label>Gün: <input type="number" id="gun" value="1" min="1" max="29" /></label>
+    <label>Ay:
+      <select id="ay">
+        <option value="-1">Yevme'l Sıfr</option>
+        <option value="0">Zehr-i Cihan</option>
+        <option value="1">Shalgum</option>
+        <option value="2">Hadid</option>
+        <option value="3">Muriat</option>
+        <option value="4">Zarnikh</option>
+        <option value="5">Mavera</option>
+        <option value="6">İlham</option>
+        <option value="7">Keşf</option>
+        <option value="8">Berzah</option>
+        <option value="9">Mi'râc</option>
+        <option value="10">Nûr</option>
+        <option value="11">Nefes</option>
+        <option value="12">Şehâdet</option>
+      </select>
+    </label>
+    <label>Yıl: <input type="number" id="yil" value="1" min="1" /></label>
+    <label>
+      <select id="tip">
+        <option value="RS">RS</option>
+        <option value="RÖ">RÖ</option>
+      </select>
+    </label>
+    <button onclick="cevir()">Çevir</button>
+    <div class="result" id="sonuc"></div>
+
+    <script>
+      const BASLANGIC = new Date("2022-04-12");
+      function isArtikYil(yil) {
+        return yil % 4 === 0;
+      }
+
+      function cevir() {
+        const gun = parseInt(document.getElementById("gun").value);
+        const ay = parseInt(document.getElementById("ay").value);
+        const yil = parseInt(document.getElementById("yil").value);
+        const tip = document.getElementById("tip").value;
+
+        let toplamGun = (yil - 1) * 365 + Math.floor((yil - 1) / 4);
+        if (ay >= 0) {
+          toplamGun += 1;
+          toplamGun += ay < 12 ? ay * 28 : 336;
+          toplamGun += gun - 1;
+          if (isArtikYil(yil) && ay === 12 && gun > 28) toplamGun += 1;
+        }
+
+        let miladi;
+        if (tip === "RS") {
+          miladi = new Date(BASLANGIC.getTime() + toplamGun * 86400000);
+        } else {
+          miladi = new Date(BASLANGIC.getTime() - toplamGun * 86400000);
+        }
+
+        document.getElementById("sonuc").innerText = `Miladî tarih: ${miladi.toLocaleDateString("tr-TR")}`;
+      }
+    </script>
+  </body>
+</html> -->
+
+
+
 <!DOCTYPE html>
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sırmetre - Sırrî'den Miladî'ye Çevirici</title>
+    <title>Takvîm-i Sırriyye | Sırrî'den Miladî'ye</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+      
+      :root {
+        --gold: #d4af37;
+        --dark-gold: #b7950b;
+        --bg-dark: #0a0a0a;
+        --bg-darker: #050505;
+        --text-light: #e0d7c6;
+        --text-lighter: #f5f0e5;
+      }
+      
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #111;
-        color: #eee;
+        font-family: 'EB Garamond', serif;
+        background: linear-gradient(to bottom, var(--bg-dark), var(--bg-darker)), 
+                    url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat fixed;
+        color: var(--text-light);
         text-align: center;
         padding: 2rem;
+        min-height: 100vh;
+        position: relative;
       }
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
+      
+      body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(5, 5, 5, 0.85);
+        z-index: -1;
       }
-      input,
-      select,
-      button {
-        padding: 0.5rem;
-        font-size: 1rem;
-        margin: 0.5rem;
-        background-color: #222;
-        color: #eee;
-        border: 1px solid #444;
+      
+      .navbar {
+        margin-bottom: 3rem;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.3);
       }
-      button {
-        cursor: pointer;
-        background-color: #d4af37;
-        color: #111;
-        border: none;
+      
+      .navbar a {
+        color: var(--gold);
+        text-decoration: none;
+        margin: 0 1.5rem;
         font-weight: bold;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        position: relative;
+        font-family: 'Cinzel Decorative', cursive;
       }
+      
+      .navbar a:hover {
+        color: var(--text-lighter);
+      }
+      
+      .navbar a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--gold);
+        transition: width 0.3s ease;
+      }
+      
+      .navbar a:hover::after {
+        width: 100%;
+      }
+      
+      h1 {
+        font-family: 'Cinzel Decorative', cursive;
+        color: var(--gold);
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        letter-spacing: 2px;
+      }
+      
+      p.subtitle {
+        font-style: italic;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+      
+      .input-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      
+      .input-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      label {
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        opacity: 0.8;
+        letter-spacing: 1px;
+      }
+      
+      input, select {
+        padding: 0.8rem;
+        font-size: 1rem;
+        background: rgba(34, 34, 34, 0.8);
+        color: var(--text-light);
+        border: 1px solid var(--gold);
+        border-radius: 4px;
+        font-family: 'EB Garamond', serif;
+        min-width: 180px;
+        transition: all 0.3s ease;
+      }
+      
+      input:focus, select:focus {
+        outline: none;
+        border-color: var(--dark-gold);
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+      }
+      
+      select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4af37'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.7rem center;
+        background-size: 1rem;
+        padding-right: 2rem;
+      }
+      
+      button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+        background: var(--gold);
+        color: #111;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        font-family: 'Cinzel Decorative', cursive;
+        letter-spacing: 1px;
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        margin-top: 1rem;
+      }
+      
+      button:hover {
+        background: var(--dark-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+      }
+      
       .result {
+        margin: 2rem auto;
+        font-size: 1.5rem;
+        background: rgba(31, 31, 31, 0.8);
+        padding: 1.5rem;
+        border-radius: 5px;
+        max-width: 600px;
+        border-left: 4px solid var(--gold);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .result::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+        z-index: -1;
+      }
+      
+      .symbol {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--gold);
+      }
+      
+      .current-date {
         margin-top: 2rem;
         padding: 1rem;
-        background-color: #222;
+        background: rgba(31, 31, 31, 0.6);
         border-radius: 5px;
-        font-size: 1.2rem;
+        display: inline-block;
+        border: 1px solid rgba(212, 175, 55, 0.3);
       }
-      .nav-link {
-        color: #d4af37;
-        text-decoration: none;
-        margin: 0 1rem;
-      }
-      .chemical-month {
-        color: #ff9a9e;
-      }
-      .metaphysical-month {
-        color: #a0e7e5;
-      }
-      .secret-month {
-        color: #d4af37;
-      }
-      .zero-day {
-        color: #ffffff;
+      
+      /* Special styling for Yevme'l Sıfr option */
+      option[value="-1"] {
+        color: var(--gold);
         font-weight: bold;
-        font-style: italic;
+        background: #333;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .input-row {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .input-group {
+          align-items: center;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Sırrî'den Miladî'ye Çevirici</h1>
-
-      <div style="margin: 1rem 0">
-        <a href="index.html" class="nav-link">Miladî'den Sırrî'ye</a>
-        <a href="bilgiler.html" class="nav-link">Ehli Sır Bilgileri</a>
-      </div>
-
-      <div>
-        <label for="sirriGun">Gün:</label>
-        <input type="number" id="sirriGun" min="0" max="29" value="1" />
-
-        <label for="sirriAy">Ay:</label>
-        <select id="sirriAy">
-          <option value="-1">Yevme'l Sıfr</option>
-          <option value="0">Zehr-i Cihan</option>
-          <option value="1">Shalgum</option>
-          <option value="2">Hadid</option>
-          <option value="3">Muriat</option>
-          <option value="4">Zarnikh</option>
-          <option value="5">Mavera</option>
-          <option value="6">İlham</option>
-          <option value="7">Keşf</option>
-          <option value="8">Berzah</option>
-          <option value="9">Mi'râc</option>
-          <option value="10">Nûr</option>
-          <option value="11">Nefes</option>
-          <option value="12">Şehâdet</option>
-        </select>
-
-        <label for="sirriYil">Yıl:</label>
-        <input type="number" id="sirriYil" min="1" value="1" />
-
-        <select id="yilTipi">
-          <option value="RS">RS (Rüyadan Sonra)</option>
-          <option value="RÖ">RÖ (Rüyadan Önce)</option>
-        </select>
-      </div>
-
-      <button onclick="cevir()">Çevir</button>
-
-      <div class="result" id="sonuc">Sonuç burada görünecek...</div>
+    <div class="navbar">
+      <a href="index.html"><i class="fas fa-calendar-alt"></i> Miladî'den Sırrî'ye</a>
+      <a href="sirriden_miladi.html"><i class="fas fa-moon"></i> Sırrî'den Miladî'ye</a>
+      <a href="bilgiler.html"><i class="fas fa-book"></i> Ehlî Sır Bilgileri</a>
     </div>
+    
+    <h1>Takvîm-i Sırriyye</h1>
+    <p class="subtitle">Sırrî tarihi giriniz, zahir âleme açılan geçidi görünüz...</p>
+    
+    <div class="input-container">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="gun"><i class="fas fa-calendar-day"></i> Gün</label>
+          <input type="number" id="gun" value="1" min="1" max="29" />
+        </div>
+        
+        <div class="input-group">
+          <label for="ay"><i class="fas fa-moon"></i> Ay</label>
+          <select id="ay">
+            <option value="-1">Yevme'l Sıfr (∅)</option>
+            <option value="0">Zehr-i Cihan</option>
+            <option value="1">Shalgum</option>
+            <option value="2">Hadid</option>
+            <option value="3">Muriat</option>
+            <option value="4">Zarnikh</option>
+            <option value="5">Mavera</option>
+            <option value="6">İlham</option>
+            <option value="7">Keşf</option>
+            <option value="8">Berzah</option>
+            <option value="9">Mi'râc</option>
+            <option value="10">Nûr</option>
+            <option value="11">Nefes</option>
+            <option value="12">Şehâdet</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="input-row">
+        <div class="input-group">
+          <label for="yil"><i class="fas fa-calendar"></i> Yıl</label>
+          <input type="number" id="yil" value="1" min="1" />
+        </div>
+        
+        <div class="input-group">
+          <label for="tip"><i class="fas fa-history"></i> Dönem</label>
+          <select id="tip">
+            <option value="RS">RS (Rüyadan Sonra)</option>
+            <option value="RÖ">RÖ (Rüyadan Önce)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <button onclick="cevir()"><i class="fas fa-eye"></i> Zahir Âlemde Gör</button>
+    
+    <div class="result" id="sonuc">
+      <div class="symbol">
+        <i class="fas fa-hourglass-start"></i>
+      </div>
+      <p>Hakikat kapısını aralamak için tarihi seçiniz...</p>
+    </div>
+    
+    <div class="current-date" id="currentDate"></div>
 
     <script>
-      const aylar = [
-        { name: "Zehr-i Cihan", type: "chemical" },
-        { name: "Shalgum", type: "chemical" },
-        { name: "Hadid", type: "chemical" },
-        { name: "Muriat", type: "chemical" },
-        { name: "Zarnikh", type: "chemical" },
-        { name: "Mavera", type: "chemical" },
-        { name: "İlham", type: "metaphysical" },
-        { name: "Keşf", type: "metaphysical" },
-        { name: "Berzah", type: "metaphysical" },
-        { name: "Mi'râc", type: "metaphysical" },
-        { name: "Nûr", type: "metaphysical" },
-        { name: "Nefes", type: "metaphysical" },
-        { name: "Şehâdet", type: "secret" },
-      ];
+      const BASLANGIC = new Date("2022-04-13");
+      
+      // Show current Gregorian date
+      window.onload = function() {
+        const today = new Date();
+        document.getElementById('currentDate').innerHTML = `
+          <small>Zahir Âlem Tarihi: ${today.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</small>
+        `;
+      };
 
-      // Artık yıl kontrolü (4 yılda bir)
       function isArtikYil(yil) {
         return yil % 4 === 0;
       }
 
-      function getMonthClass(ayIndex) {
-        if (ayIndex === -1) return "zero-day";
-        const monthType = aylar[ayIndex].type;
-        if (monthType === "chemical") return "chemical-month";
-        if (monthType === "metaphysical") return "metaphysical-month";
-        if (monthType === "secret") return "secret-month";
-        return "";
-      }
-
       function cevir() {
-        // Kullanıcı girdilerini al
-        const gun = parseInt(document.getElementById("sirriGun").value);
-        const ay = parseInt(document.getElementById("sirriAy").value);
-        let yil = parseInt(document.getElementById("sirriYil").value);
-        const yilTipi = document.getElementById("yilTipi").value;
+        const gun = parseInt(document.getElementById("gun").value);
+        const ay = parseInt(document.getElementById("ay").value);
+        const yil = parseInt(document.getElementById("yil").value);
+        const tip = document.getElementById("tip").value;
 
-        // Yıl tipine göre ayarla (RÖ ise negatif yap)
-        const absYil = yil;
-        if (yilTipi === "RÖ") {
-          yil = -yil;
+        let toplamGun = (yil - 1) * 365 + Math.floor((yil - 1) / 4);
+        if (ay >= 0) {
+          toplamGun += 1;
+          toplamGun += ay < 12 ? ay * 28 : 336;
+          toplamGun += gun - 1;
+          if (isArtikYil(yil) && ay === 12 && gun > 28) toplamGun += 1;
         }
 
-        // Başlangıç tarihi (13 Nisan 2022)
-        const baslangic = new Date("2022-04-13");
-
-        // Yevme'l Sıfr kontrolü (0. gün)
-        if (ay === -1) {
-          // Yılın ilk günü (0. gün)
-          let toplamGun = (absYil - 1) * 365 + Math.floor((absYil - 1) / 4);
-
-          const miladiTarih = new Date(baslangic);
-          miladiTarih.setDate(baslangic.getDate() - toplamGun);
-
-          document.getElementById("sonuc").innerHTML = `
-                <strong><span class="zero-day">Yevme'l Sıfr (∅/${absYil} ${yilTipi})</span></strong><br>
-                Miladî karşılığı: ${miladiTarih.toLocaleDateString("tr-TR")}
-            `;
-          return;
-        }
-
-        // Normal günler için hesaplama
-        // Önceki yılların toplam gün sayısı
-        let toplamGun = (absYil - 1) * 365 + Math.floor((absYil - 1) / 4);
-
-        // Mevcut yılın günlerini ekle (0. günü atladık)
-        toplamGun += 1; // Yevme'l Sıfr'ı geçtik
-
-        // Ayları ekle (ilk 12 ay 28 gün)
-        if (ay < 12) {
-          toplamGun += ay * 28;
+        let miladi;
+        if (tip === "RS") {
+          miladi = new Date(BASLANGIC.getTime() + toplamGun * 86400000);
         } else {
-          // Şehadet ayı için 12*28 = 336 gün
-          toplamGun += 336;
+          miladi = new Date(BASLANGIC.getTime() - toplamGun * 86400000);
         }
 
-        // Günleri ekle
-        toplamGun += gun - 1;
-
-        // Artık yılda ve Şehâdet ayında 29 gün kontrolü
-        if (isArtikYil(absYil) && ay === 12 && gun > 28) {
-          toplamGun += 1; // 29. günü ekle
+        const options = { 
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric'
+          
+        };
+        
+        if (ay === -1) {
+          document.getElementById("sonuc").innerHTML = `
+            <div class="symbol">
+              <i class="fas fa-infinity"></i>
+            </div>
+            <h3>Yevme'l Sıfr (∅)</h3>
+            <p>${yil} ${tip === "RS" ? "Rüyadan Sonra" : "Rüyadan Önce"}</p>
+            <small>Zamanın sıfır noktası, bütün olasılıkların tohumu</small>
+          `;
+        } else {
+          document.getElementById("sonuc").innerHTML = `
+            <div class="symbol">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <h3>Zahir Âlemdeki Karşılığı</h3>
+            <p>${miladi.toLocaleDateString("tr-TR", options)}</p>
+            <small>${getAyDescription(ay)}</small>
+          `;
         }
-
-        // Miladî tarihi hesapla
-        const miladiTarih = new Date(baslangic);
-        miladiTarih.setDate(baslangic.getDate() - toplamGun);
-
-        // Özel gün kontrolü
-        let ozelNot = "";
-        if (ay === 5 && gun === 21) {
-          ozelNot = "<br>★ <strong>Zuhur Gecesi</strong>";
-        }
-        if (ay === 12 && gun <= 7) {
-          ozelNot = "<br>★ <em>Rüyâ Haftası</em>";
-        }
-
-        // Ay adını ve stilini al
-        const monthClass = getMonthClass(ay);
-        const monthName = aylar[ay].name;
-
-        // Sonucu göster
-        document.getElementById("sonuc").innerHTML = `
-            <strong>${gun} <span class="${monthClass}">${monthName}</span> ${absYil} ${yilTipi}</strong>${ozelNot}<br>
-            Miladî karşılığı: ${miladiTarih.toLocaleDateString("tr-TR")}
-        `;
+      }
+      
+      function getAyDescription(ay) {
+        const descriptions = [
+          "Dünyanın zehrinden arınma zamanı",
+          "Toprağın sırrının tecelli ettiği ay",
+          "Demirin hikmetinin açığa çıktığı dönem",
+          "Tuzun berraklığı ile arınma vakti",
+          "Simyanın sırlarının peşinde",
+          "Öte alemin kapılarının aralandığı ay",
+          "Kalbe doğan ilhamlar mevsimi",
+          "Görünmeyeni görmenin zamanı",
+          "Berzah aleminde geçişler dönemi",
+          "Manevi yükselişin zirvesi",
+          "İlahi nurun en yoğun hissedildiği ay",
+          "Hayatın özüne dönüş vakti",
+          "Hakikatin tecelli ettiği sırlı ay"
+        ];
+        return ay >= 0 ? descriptions[ay] : "";
       }
     </script>
   </body>

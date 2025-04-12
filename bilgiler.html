@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -156,6 +156,389 @@
   <div class="section" style="text-align: center; font-style: italic;">
     <p>Takvim, <strong>Kimyevî-Gaybî-Sırrî Üçlüsü</strong>ne göre işler.</p>
     <p>"Yevme'l Sıfr"ın hakikati, Allah'ın ilmindedir. El Mürşid ancak işaret eder, hüküm Allah'ındır.</p>
+  </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Takvîm-i Sırriyye - Ehli Sır Bilgileri</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+    
+    :root {
+      --gold: #d4af37;
+      --dark-gold: #b7950b;
+      --bg-dark: #0a0a0a;
+      --bg-darker: #050505;
+      --text-light: #e0d7c6;
+      --text-lighter: #f5f0e5;
+      --chemical: #ff9a9e;
+      --metaphysical: #a0e7e5;
+      --secret: #d4af37;
+    }
+    
+    body {
+      font-family: 'EB Garamond', serif;
+      background: linear-gradient(to bottom, var(--bg-dark), var(--bg-darker)), 
+                  url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat fixed;
+      color: var(--text-light);
+      line-height: 1.8;
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 5, 5, 0.9);
+      z-index: -1;
+    }
+    
+    h1, h2, h3 {
+      font-family: 'Cinzel Decorative', cursive;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+    
+    h1 {
+      font-size: 2.8rem;
+      margin-top: 1rem;
+      letter-spacing: 2px;
+    }
+    
+    h2 {
+      font-size: 2rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      padding-bottom: 0.5rem;
+      display: inline-block;
+    }
+    
+    h3 {
+      font-size: 1.5rem;
+      text-align: left;
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    }
+    
+    .nav a {
+      color: var(--gold);
+      text-decoration: none;
+      margin: 0 1.5rem;
+      font-size: 1.1rem;
+      font-family: 'Cinzel Decorative', cursive;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .nav a:hover {
+      color: var(--text-lighter);
+    }
+    
+    .nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--gold);
+      transition: width 0.3s ease;
+    }
+    
+    .nav a:hover::after {
+      width: 100%;
+    }
+    
+    p.subtitle {
+      text-align: center;
+      font-style: italic;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+    
+    .section {
+      background: rgba(31, 31, 31, 0.7);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 2.5rem;
+      border-left: 4px solid var(--gold);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+      z-index: -1;
+    }
+    
+    .special-day {
+      background: rgba(51, 51, 51, 0.6);
+      padding: 1rem;
+      border-left: 3px solid var(--gold);
+      margin: 1rem 0;
+      border-radius: 4px;
+      position: relative;
+    }
+    
+    .special-day::before {
+      content: '✧';
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+    
+    .chemical-month {
+      color: var(--chemical);
+    }
+    
+    .metaphysical-month {
+      color: var(--metaphysical);
+    }
+    
+    .secret-month {
+      color: var(--secret);
+    }
+    
+    .zero-day {
+      color: #ffffff;
+      font-weight: bold;
+      font-style: italic;
+    }
+    
+    ul, ol {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+    }
+    
+    li {
+      margin-bottom: 0.8rem;
+      position: relative;
+    }
+    
+    li::before {
+      content: '✦';
+      position: absolute;
+      left: -1.5rem;
+      color: var(--gold);
+    }
+    
+    strong {
+      color: var(--gold);
+    }
+    
+    .symbol {
+      text-align: center;
+      font-size: 2rem;
+      margin: 1rem 0;
+      color: var(--gold);
+      animation: glow 2s infinite alternate;
+    }
+    
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px var(--gold);
+      }
+      to {
+        text-shadow: 0 0 15px var(--gold), 0 0 20px rgba(212, 175, 55, 0.5);
+      }
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
+      font-style: italic;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .section {
+        padding: 1.5rem;
+      }
+      
+      .nav a {
+        display: block;
+        margin: 0.5rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="index.html"><i class="fas fa-calendar-alt"></i> Miladî'den Sırrî'ye</a>
+    <a href="sirriden_miladi.html"><i class="fas fa-moon"></i> Sırrî'den Miladî'ye</a>
+    <a href="bilgiler.html"><i class="fas fa-book"></i> Ehlî Sır Bilgileri</a>
+  </div>
+
+  <div class="symbol">
+    <i class="fas fa-scroll"></i>
+  </div>
+  
+  <h1>Takvîm-i Sırriyye</h1>
+  <p class="subtitle">"Göklerin, yerlerin ve bâtının okunduğu kudsî takvim"</p>
+
+  <div class="section">
+    <h2>1. Takvim Başlangıcı (Sıfır Yılı)</h2>
+    <p><strong><i class="fas fa-star"></i> Başlangıç yılı:</strong> "Mehdî'nin Rüyası" yılı olarak kabul edilir.</p>
+    <p><strong><i class="fas fa-clock"></i> Miladi karşılığı:</strong> 13 Nisan 2022 (Rüyadan Sonra 1. yılın başlangıcı)</p>
+    <p style="text-align: center; font-style: italic; margin-top: 1rem;">
+      "Zamanın başlangıcı bir rüyada gizlidir, hakikati ise ancak erenler bilir."
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>2. Yıl Uzunluğu ve Yapısı</h2>
+    <ul>
+      <li><strong><i class="fas fa-calendar-day"></i> 1 yıl = 365 gün</strong> (artık yıllarda 366 gün)</li>
+      <li>Her yıl <strong>Yevme'l Sıfr (∅)</strong> ile başlar (0. gün)</li>
+      <li>13 aydan oluşur (6 kimyevî, 6 gaybî, 1 sırrî)</li>
+      <li>4 yılda bir <strong>Şehâdet ayı 29 gün</strong> olur</li>
+      <li>Her ay 4 hafta (28 gün) sürer, Şehâdet ayı hariç</li>
+    </ul>
+    
+    <div class="special-day">
+      <h3 class="zero-day"><i class="fas fa-infinity"></i> Yevme'l Sıfr (∅)</h3>
+      <p>Her yılın <strong>ilk günü</strong> (0. gün), zamanın sıfır noktasıdır. Bu günde ne geçmiş vardır ne gelecek, sadece saf potansiyel bulunur.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>3. Aylar</h2>
+    <p>Üç kategoriye ayrılır:</p>
+    
+    <h3><i class="fas fa-flask chemical-month"></i> Kimyevî Aylar (Maddî Temizlik)</h3>
+    <ol>
+      <li class="chemical-month"><strong>Zehr-i Cihan</strong> - Dünyanın zehrinden arınma</li>
+      <li class="chemical-month"><strong>Shalgum</strong> - Toprağın sırrı</li>
+      <li class="chemical-month"><strong>Hadid</strong> - Demirin hikmeti</li>
+      <li class="chemical-month"><strong>Muriat</strong> - Tuzun berraklığı</li>
+      <li class="chemical-month"><strong>Zarnikh</strong> - Simyanın sırrı</li>
+      <li class="chemical-month"><strong>Mavera</strong> - Öte alemin kapısı</li>
+    </ol>
+    
+    <h3><i class="fas fa-eye metaphysical-month"></i> Gaybî Aylar (Manevî Yolculuk)</h3>
+    <ol start="7">
+      <li class="metaphysical-month"><strong>İlham</strong> - Kalbe doğanlar</li>
+      <li class="metaphysical-month"><strong>Keşf</strong> - Görünmeyeni görmek</li>
+      <li class="metaphysical-month"><strong>Berzah</strong> - Geçişler alemi</li>
+      <li class="metaphysical-month"><strong>Mi'râc</strong> - Yükseliş</li>
+      <li class="metaphysical-month"><strong>Nûr</strong> - İlahi aydınlık</li>
+      <li class="metaphysical-month"><strong>Nefes</strong> - Hayatın özü</li>
+    </ol>
+    
+    <h3><i class="fas fa-key secret-month"></i> Sırrî Ay</h3>
+    <ol start="13">
+      <li class="secret-month"><strong>Şehâdet</strong> - Hakikatin tecellisi</li>
+    </ol>
+    
+    <div class="special-day">
+      <h3 class="secret-month"><i class="fas fa-moon"></i> Şehâdet Ayının Özelliği</h3>
+      <p>Artık yıllarda 29 gün çeker. Bu ayın son 7 günü <strong>"Tecelli Haftası"</strong> olarak bilinir ve sırların en yoğun şekilde tezahür ettiği dönemdir.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>4. Günler</h2>
+    <p>Her biri bir hali, makamı ve hikmeti temsil eder:</p>
+    <ul>
+      <li><strong>Fetih</strong> – Açılım, başlangıç, niyet günü</li>
+      <li><strong>Tefekkür</strong> – Derin düşünce, içe bakış, murakabe</li>
+      <li><strong>Hikmet</strong> – Bilgeliğin zuhuru, kavrayış ve sır çözümü</li>
+      <li><strong>Kelam</strong> – Söz, ifade, hitap, tebliğ ve davet vakti</li>
+      <li><strong>Zikir</strong> – Anış, hatırlayış, kalbin cilalanması</li>
+      <li><strong>Meydan</strong> – İmtihan, mücadele, nefsle savaş</li>
+      <li><strong>Sükûn</strong> – Dinginlik, teslimiyet, iç huzur</li>
+    </ul>
+    
+    <div class="special-day">
+      <h3><i class="fas fa-calendar-check"></i> Günlerin Sırrı</h3>
+      <p>Her günün başlangıcı <strong>03:33</strong> olarak kabul edilir. Bu saat "Rüya Zamanı" olarak bilinir ve iki gün arasındaki geçiş kapısıdır.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>5. Özel Günler</h2>
+    <div class="special-day">
+      <h3 class="zero-day"><i class="fas fa-infinity"></i> Yevme'l Sıfr (∅)</h3>
+      <p>Her yılın <strong>ilk günü</strong> (0. gün), zamanın sıfır noktasıdır. Bu günde hiçbir iş yapılmaz, sadece tefekkür edilir.</p>
+    </div>
+    <div class="special-day">
+      <h3 class="chemical-month"><i class="fas fa-flask"></i> Zuhur Gecesi</h3>
+      <p>Mavera ayının 21. gecesi, <strong>Kimyevî temizliğin tamamlandığı gece</strong>. Bu gece duaların kabul olduğu bir vakittir.</p>
+    </div>
+    <div class="special-day">
+      <h3 class="metaphysical-month"><i class="fas fa-dream"></i> Rüyâ Haftası</h3>
+      <p>Şehâdet ayının ilk 7 günü, <strong>gayb âlemine açılan kapılar</strong>. Bu dönemde görülen rüyalar önemli mesajlar içerir.</p>
+    </div>
+    <div class="special-day">
+      <h3 class="secret-month"><i class="fas fa-key"></i> Şehâdet Günleri</h3>
+      <p>Şehâdet ayının son 7 günü, <strong>sırların tecelli ettiği zamanlar</strong>. Bu günlerde yapılan ibadetlerin ve çalışmaların bereketi katlanır.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>6. Saat Sistemi</h2>
+    <ul>
+      <li>Gün <strong>03:33'te başlar</strong>. Çünkü bu, <strong>Rüya Zamanı</strong>dır.</li>
+      <li>Her gün 12 saatlik <strong>Zâhirî vakit</strong> ve 12 saatlik <strong>Bâtınî vakit</strong> vardır.</li>
+      <li>Zâhirî vakitler dünya işleri, Bâtınî vakitler zikir, keşif ve sır ifşaları içindir.</li>
+      <li>Her saatin bir "Nefes"i vardır ve 60 nefes bir saati oluşturur.</li>
+    </ul>
+    
+    <div class="special-day">
+      <h3><i class="fas fa-clock"></i> Bâtınî Vakitler</h3>
+      <p>Güneş battıktan sonra başlayan Bâtınî vakitler, en verimli tefekkür zamanlarıdır. Özellikle <strong>gece yarısı ile şafak arası</strong> "Sır Saatleri" olarak bilinir.</p>
+    </div>
+  </div>
+
+  <div class="section" style="text-align: center;">
+    <div class="symbol">
+      <i class="fas fa-star-and-crescent"></i>
+    </div>
+    <p>Takvim, <strong>Kimyevî-Gaybî-Sırrî Üçlüsü</strong>ne göre işler.</p>
+    <p style="font-style: italic; margin-top: 1rem;">"Yevme'l Sıfr"ın hakikati, Allah'ın ilmindedir. El Mürşid ancak işaret eder, hüküm Allah'ındır.</p>
+  </div>
+  
+  <div class="footer">
+    <p>© Takvîm-i Sırriyye - Ehli Sır Cemaati</p>
+    <p>Bu bilgiler sadece hakikati arayanlara yol gösterici olması için verilmiştir.</p>
   </div>
 </body>
 </html>

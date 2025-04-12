@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sırmetre - Sırrî'den Miladî'ye Çevirici</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #111;
+        color: #eee;
+        text-align: center;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      input,
+      select,
+      button {
+        padding: 0.5rem;
+        font-size: 1rem;
+        margin: 0.5rem;
+        background-color: #222;
+        color: #eee;
+        border: 1px solid #444;
+      }
+      button {
+        cursor: pointer;
+        background-color: #d4af37;
+        color: #111;
+        border: none;
+        font-weight: bold;
+      }
+      .result {
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: #222;
+        border-radius: 5px;
+        font-size: 1.2rem;
+      }
+      .nav-link {
+        color: #d4af37;
+        text-decoration: none;
+        margin: 0 1rem;
+      }
+      .chemical-month {
+        color: #ff9a9e;
+      }
+      .metaphysical-month {
+        color: #a0e7e5;
+      }
+      .secret-month {
+        color: #d4af37;
+      }
+      .zero-day {
+        color: #ffffff;
+        font-weight: bold;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Sırrî'den Miladî'ye Çevirici</h1>
+
+      <div style="margin: 1rem 0">
+        <a href="index.html" class="nav-link">Miladî'den Sırrî'ye</a>
+        <a href="bilgiler.html" class="nav-link">Ehli Sır Bilgileri</a>
+      </div>
+
+      <div>
+        <label for="sirriGun">Gün:</label>
+        <input type="number" id="sirriGun" min="0" max="29" value="1" />
+
+        <label for="sirriAy">Ay:</label>
+        <select id="sirriAy">
+          <option value="-1">Yevme'l Sıfr</option>
+          <option value="0">Zehr-i Cihan</option>
+          <option value="1">Shalgum</option>
+          <option value="2">Hadid</option>
+          <option value="3">Muriat</option>
+          <option value="4">Zarnikh</option>
+          <option value="5">Mavera</option>
+          <option value="6">İlham</option>
+          <option value="7">Keşf</option>
+          <option value="8">Berzah</option>
+          <option value="9">Mi'râc</option>
+          <option value="10">Nûr</option>
+          <option value="11">Nefes</option>
+          <option value="12">Şehâdet</option>
+        </select>
+
+        <label for="sirriYil">Yıl:</label>
+        <input type="number" id="sirriYil" min="1" value="1" />
+
+        <select id="yilTipi">
+          <option value="RS">RS (Rüyadan Sonra)</option>
+          <option value="RÖ">RÖ (Rüyadan Önce)</option>
+        </select>
+      </div>
+
+      <button onclick="cevir()">Çevir</button>
+
+      <div class="result" id="sonuc">Sonuç burada görünecek...</div>
+    </div>
+
+    <script>
+      const aylar = [
+          {name: "Zehr-i Cihan", type: "chemical"},
+          {name: "Shalgum", type: "chemical"},
+          {name: "Hadid", type: "chemical"},
+          {name: "Muriat", type: "chemical"},
+          {name: "Zarnikh", type: "chemical"},
+          {name: "Mavera", type: "chemical"},
+          {name: "İlham", type: "metaphysical"},
+          {name: "Keşf", type: "metaphysical"},
+          {name: "Berzah", type: "metaphysical"},
+          {name: "Mi'râc", type: "metaphysical"},
+          {name: "Nûr", type: "metaphysical"},
+          {name: "Nefes", type: "metaphysical"},
+          {name: "Şehâdet", type: "secret"}
+      ];
+  
+      // Başlangıç tarihi (13 Nisan 2022 RS 1)
+      const BASLANGIC = new Date("2022-04-12");
+      
+      // Artık yıl kontrolü (4 yılda bir)
+      function isArtikYil(yil) {
+          return (yil % 4) === 0;
+      }
+  
+      function getMonthClass(ayIndex) {
+          if (ayIndex === -1) return "zero-day";
+          const monthType = aylar[ayIndex].type;
+          if (monthType === "chemical") return "chemical-month";
+          if (monthType === "metaphysical") return "metaphysical-month";
+          if (monthType === "secret") return "secret-month";
+          return "";
+      }
+  
+      //const BASLANGIC = new Date("2022-04-12T00:00:00"); // 12 Nisan 2022 saat 00:00
+
+function cevir() {
+    // Kullanıcı girdilerini al
+    const gun = parseInt(document.getElementById("sirriGun").value);
+    const ay = parseInt(document.getElementById("sirriAy").value);
+    let yil = parseInt(document.getElementById("sirriYil").value);
+    const yilTipi = document.getElementById("yilTipi").value;
+    
+    // Yıl tipine göre ayarla
+    const absYil = yil;
+    
+    // Toplam gün hesaplama
+    let toplamGun = (absYil - 1) * 365 + Math.floor((absYil - 1) / 4);
+    
+    if (ay >= 0) { // Yevme'l Sıfr değilse
+        toplamGun += 1; // Yevme'l Sıfr'ı geç
+        toplamGun += (ay < 12) ? ay * 28 : 336; // 12*28
+        toplamGun += gun - 1;
+        
+        // Artık yıl düzeltmesi (Şehâdet 29 gün)
+        if (isArtikYil(absYil) && ay === 12 && gun > 28) {
+            toplamGun += 1;
+        }
+    }
+    
+    // Miladî tarihi hesapla
+    const miladiTarih = new Date(BASLANGIC);
+    if (yilTipi === "RS") {
+    miladiTarih.setDate(BASLANGIC.getDate() + toplamGun);
+} else {
+    miladiTarih.setTime(BASLANGIC.getTime() - toplamGun * 24 * 60 * 60 * 1000);
+}
+    
+    // Özel gün kontrolü
+    let ozelNot = "";
+    if (ay === 5 && gun === 21) ozelNot = "<br>★ <strong>Zuhur Gecesi</strong>";
+    if (ay === 12 && gun <= 7) ozelNot = "<br>★ <em>Rüyâ Haftası</em>";
+    
+    // Sonucu göster
+    document.getElementById("sonuc").innerHTML = `
+        <strong>${gun} <span class="${getMonthClass(ay)}">${aylar[ay].name}</span> ${absYil} ${yilTipi}</strong>${ozelNot}<br>
+        Miladî karşılığı: ${miladiTarih.toLocaleDateString('tr-TR')}
+    `;
+}
+
+  
+      // TEST: 15 Aralık 2005 → 17 Berzah 17 RÖ kontrolü
+      function testCevirme() {
+          const testTarih = new Date("2005-12-15");
+          const farkGun = Math.floor((BASLANGIC - testTarih) / (1000*60*60*24));
+          const yil = Math.floor(farkGun / 365.25) + 1;
+          console.log("TEST:", testTarih.toLocaleDateString('tr-TR'), "→", yil + " RÖ");
+      }
+      testCevirme();
+  </script>
+  </body>
+</html>

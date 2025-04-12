@@ -1,313 +1,444 @@
+<!-- <!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Takvîm-i Sırriyye | Miladî'den Sırrî'ye</title>
+    <style>
+      body {
+        font-family: 'Georgia', serif;
+        background: linear-gradient(to bottom, #0a0a0a, #1a1a1a);
+        color: #e0d7c6;
+        text-align: center;
+        padding: 2rem;
+      }
+      .navbar {
+        margin-bottom: 2rem;
+      }
+      .navbar a {
+        color: #d4af37;
+        text-decoration: none;
+        margin: 0 1rem;
+        font-weight: bold;
+      }
+      input, button {
+        padding: 0.5rem;
+        font-size: 1rem;
+        margin: 0.5rem;
+        background: #222;
+        color: #eee;
+        border: 1px solid #444;
+        border-radius: 4px;
+      }
+      button {
+        background: #d4af37;
+        color: #111;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .result {
+        margin-top: 2rem;
+        font-size: 1.3rem;
+        background: #1f1f1f;
+        padding: 1rem;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="index.html">Miladî'den Sırrî'ye</a>
+      <a href="sirriden_miladi.html">Sırrî'den Miladî'ye</a>
+      <a href="bilgiler.html">Ehlî Sır Bilgileri</a>
+    </div>
+    <h1>Takvîm-i Sırriyye</h1>
+    <p>Miladî tarihi giriniz, Sırrî zamanın kapılarını aralayınız...</p>
+    <input type="date" id="miladiTarih" />
+    <button onclick="cevir()">Çevir</button>
+    <div class="result" id="sonuc"></div>
+
+    <script>
+      const aylar = [
+        "Zehr-i Cihan", "Shalgum", "Hadid", "Muriat", "Zarnikh", "Mavera",
+        "İlham", "Keşf", "Berzah", "Mi'râc", "Nûr", "Nefes", "Şehâdet"
+      ];
+      const gunler = ["Fetih", "Tefekkür", "Hikmet", "Kelam", "Zikir", "Meydan", "Sükûn"];
+      const BASLANGIC = new Date("2022-04-12");
+
+      function cevir() {
+        const tarihStr = document.getElementById("miladiTarih").value;
+        if (!tarihStr) return;
+
+        const tarih = new Date(tarihStr);
+        const farkGun = Math.floor((tarih - BASLANGIC) / (1000 * 60 * 60 * 24));
+        const isRS = farkGun >= 0;
+        const absGun = Math.abs(farkGun);
+
+        let yillar = Math.floor((absGun + 1) / 365) + 1 ;
+        let artikYilSayisi = Math.floor(yillar / 4);
+        let kalanGun = absGun - (yillar * 365 + artikYilSayisi);
+
+        
+        const yilEtiketi = isRS ? "RS" : "RÖ";
+
+        if (kalanGun === 0) {
+          document.getElementById("sonuc").innerHTML = `
+            <strong>Yevme'l Sıfr</strong> (&#8709;/${yillar} ${yilEtiketi})
+          `;
+          return;
+        }
+
+        kalanGun -= 1;
+        let ay, gun;
+        if (kalanGun < 336) {
+          ay = Math.floor(kalanGun / 28);
+          gun = (kalanGun % 28) + 1;
+        } else {
+          ay = 12;
+          gun = kalanGun - 335;
+        }
+
+        const haftaninGunu = gunler[(tarih.getDay() + 6) % 7];
+        document.getElementById("sonuc").innerHTML = `
+          <strong>${gun} <em>${aylar[ay]}</em> ${yillar} ${yilEtiketi}</strong><br><span style="opacity: 0.7">${haftaninGunu} günü</span>
+        `;
+      }
+    </script>
+  </body>
+</html> -->
+
 <!DOCTYPE html>
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sırmetre - Takvîm-i Sırriyye Çevirici</title>
+    <title>Takvîm-i Sırriyye | Miladî'den Sırrî'ye</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+      
+      :root {
+        --gold: #d4af37;
+        --dark-gold: #b7950b;
+        --bg-dark: #0a0a0a;
+        --bg-darker: #050505;
+        --text-light: #e0d7c6;
+        --text-lighter: #f5f0e5;
+      }
+      
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #111;
-        color: #eee;
+        font-family: 'EB Garamond', serif;
+        background: linear-gradient(to bottom, var(--bg-dark), var(--bg-darker)), 
+                    url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat fixed;
+        color: var(--text-light);
         text-align: center;
         padding: 2rem;
+        min-height: 100vh;
+        position: relative;
       }
-      input,
-      button {
-        padding: 0.5rem;
-        font-size: 1rem;
-        margin: 0.5rem;
+      
+      body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(5, 5, 5, 0.85);
+        z-index: -1;
       }
-      .result {
-        margin-top: 2rem;
-        font-size: 1.2rem;
-      }
-      .today-info {
-        margin-bottom: 2rem;
+      
+      .navbar {
+        margin-bottom: 3rem;
         padding: 1rem;
-        background-color: #222;
-        border-radius: 5px;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.3);
       }
-
-      .triple-date {
-        display: flex;
-        justify-content: space-around;
-        margin: 1rem 0;
-        background: #222;
-        padding: 1rem;
-        border-radius: 5px;
-      }
-      .date-box {
-        text-align: center;
-        padding: 0.5rem;
-      }
-      .hijri-info {
-        font-size: 0.9rem;
-        color: #8abeb7;
-      }
-      .chemical-month {
-        color: #ff9a9e;
-      }
-      .metaphysical-month {
-        color: #a0e7e5;
-      }
-      .secret-month {
-        color: #d4af37;
-      }
-      .zero-day {
-        color: #ffffff;
+      
+      .navbar a {
+        color: var(--gold);
+        text-decoration: none;
+        margin: 0 1.5rem;
         font-weight: bold;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        position: relative;
+        font-family: 'Cinzel Decorative', cursive;
+      }
+      
+      .navbar a:hover {
+        color: var(--text-lighter);
+      }
+      
+      .navbar a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--gold);
+        transition: width 0.3s ease;
+      }
+      
+      .navbar a:hover::after {
+        width: 100%;
+      }
+      
+      h1 {
+        font-family: 'Cinzel Decorative', cursive;
+        color: var(--gold);
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        letter-spacing: 2px;
+      }
+      
+      p.subtitle {
         font-style: italic;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+      
+      .date-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      
+      input[type="date"] {
+        padding: 0.8rem;
+        font-size: 1.1rem;
+        background: rgba(34, 34, 34, 0.8);
+        color: var(--text-light);
+        border: 1px solid var(--gold);
+        border-radius: 4px;
+        font-family: 'EB Garamond', serif;
+        min-width: 220px;
+      }
+      
+      button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+        background: var(--gold);
+        color: #111;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        font-family: 'Cinzel Decorative', cursive;
+        letter-spacing: 1px;
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      }
+      
+      button:hover {
+        background: var(--dark-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+      }
+      
+      .result {
+        margin: 2rem auto;
+        font-size: 1.5rem;
+        background: rgba(31, 31, 31, 0.8);
+        padding: 1.5rem;
+        border-radius: 5px;
+        max-width: 600px;
+        border-left: 4px solid var(--gold);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .result::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+        z-index: -1;
+      }
+      
+      .today-btn {
+        margin-top: 1.5rem;
+        background: transparent;
+        color: var(--gold);
+        border: 1px solid var(--gold);
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .today-btn:hover {
+        background: rgba(212, 175, 55, 0.1);
+      }
+      
+      .moon-phase {
+        font-size: 2rem;
+        margin: 0.5rem;
+        animation: glow 2s infinite alternate;
+      }
+      
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 5px var(--gold);
+        }
+        to {
+          text-shadow: 0 0 15px var(--gold), 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+      }
+      
+      .current-date {
+        margin-top: 2rem;
+        padding: 1rem;
+        background: rgba(31, 31, 31, 0.6);
+        border-radius: 5px;
+        display: inline-block;
+        border: 1px solid rgba(212, 175, 55, 0.3);
       }
     </style>
   </head>
   <body>
-    <h1>Sırmetre</h1>
-    <div style="text-align: center; margin: 1rem 0">
-      <a href="bilgiler.html" style="color: #d4af37; text-decoration: none"
-        >Ehli Sır Bilgileri</a
-      >
-      |<a href="sirriden_miladi.html" style="color: #d4af37; text-decoration: none">Sırrî'den Miladî'ye</a> |
-      <a href="#" onclick="showHijriInfo()" style="color: #8abeb7"
-        >Hicrî Bilgiler</a
-      >
+    <div class="navbar">
+      <a href="index.html"><i class="fas fa-calendar-alt"></i> Miladî'den Sırrî'ye</a>
+      <a href="sirriden_miladi.html"><i class="fas fa-moon"></i> Sırrî'den Miladî'ye</a>
+      <a href="bilgiler.html"><i class="fas fa-book"></i> Ehlî Sır Bilgileri</a>
     </div>
-    <div class="today-info" id="bugun"></div>
-    <p>Miladi tarihi gir, Takvîm-i Sırriyye tarihini öğren!</p>
-
-    <div class="triple-date" id="tripleDate">
-      <div class="date-box">
-        <div>Miladî</div>
-        <div id="gregorianDate">--</div>
-      </div>
-      <div class="date-box">
-        <div>Hicrî</div>
-        <div id="hijriDate">--</div>
-      </div>
-      <div class="date-box">
-        <div>Sırrî</div>
-        <div id="sirriDate">--</div>
-      </div>
+    
+    <div class="moon-phase">
+      <i class="fas fa-moon"></i>
     </div>
-  
-    <div id="hijriInfoPanel" style="display: none; background: #1a2f2b; padding: 1rem; margin: 1rem 0; border-left: 3px solid #8abeb7;">
-      <h3>Hicrî Takvim Notları</h3>
-      <p id="hijriSpecialDay"></p>
-      <p><em>Hicrî ay: <span id="currentHijriMonth"></span></em></p>
+    
+    <h1>Takvîm-i Sırriyye</h1>
+    <p class="subtitle">Miladî tarihi giriniz, Sırrî zamanın kapılarını aralayınız...</p>
+    
+    <div class="date-container">
+      <input type="date" id="miladiTarih" />
+      <button onclick="cevir()"><i class="fas fa-exchange-alt"></i> Çevir</button>
     </div>
-
-    <input type="date" id="miladiTarih" />
-    <button onclick="cevir()">Çevir</button>
-
+    
+    <button class="today-btn" onclick="showToday()"><i class="fas fa-star"></i> Bugünün Sırrî Tarihi</button>
+    
     <div class="result" id="sonuc"></div>
+    
+    <div class="current-date" id="currentDate"></div>
 
     <script>
-      // Yeni ay düzeni
       const aylar = [
-        {name: "Zehr-i Cihan", type: "chemical"},
-        {name: "Shalgum", type: "chemical"},
-        {name: "Hadid", type: "chemical"},
-        {name: "Muriat", type: "chemical"},
-        {name: "Zarnikh", type: "chemical"},
-        {name: "Mavera", type: "chemical"},
-        {name: "İlham", type: "metaphysical"},
-        {name: "Keşf", type: "metaphysical"},
-        {name: "Berzah", type: "metaphysical"},
-        {name: "Mi'râc", type: "metaphysical"},
-        {name: "Nûr", type: "metaphysical"},
-        {name: "Nefes", type: "metaphysical"},
-        {name: "Şehâdet", type: "secret"}
+        "Zehr-i Cihan", "Shalgum", "Hadid", "Muriat", "Zarnikh", "Mavera",
+        "İlham", "Keşf", "Berzah", "Mi'râc", "Nûr", "Nefes", "Şehâdet"
       ];
+      const gunler = ["Fetih", "Tefekkür", "Hikmet", "Kelam", "Zikir", "Meydan", "Sükûn"];
+      const BASLANGIC = new Date("2022-04-13");
       
-      const gunler = [
-        "Fetih",
-        "Tefekkür",
-        "Hikmet",
-        "Kelam",
-        "Zikir",
-        "Meydan",
-        "Sükûn"
-      ];
-      
-      const hijriMonths = [
-        "Muharrem", "Safer", "Rebiülevvel", "Rebiülahir",
-        "Cemaziyelevvel", "Cemaziyelahir", "Recep", "Şaban",
-        "Ramazan", "Şevval", "Zilkade", "Zilhicce"
-      ];
+      // Update moon phase randomly (for demo)
+      const moonPhases = ['fa-moon', 'fa-moon', 'fa-moon', 'fa-moon'];
+      setInterval(() => {
+        const randomPhase = moonPhases[Math.floor(Math.random() * moonPhases.length)];
+        document.querySelector('.moon-phase i').className = `fas ${randomPhase}`;
+      }, 5000);
 
-      // Hicrî özel günler
-      const hijriSpecialDays = {
-        "1-10": "Aşure Günü",
-        "7-27": "Miraç Kandili",
-        "8-15": "Berat Kandili",
-        "9-27": "Kadir Gecesi",
-        "12-10": "Kurban Bayramı (1. Gün)"
+      function showToday() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        document.getElementById('miladiTarih').value = `${year}-${month}-${day}`;
+        cevir();
+      }
+      
+      // Show today's date on load
+      window.onload = function() {
+        showToday();
+        
+        // Show current Gregorian date
+        const today = new Date();
+        document.getElementById('currentDate').innerHTML = `
+          <small>Zahir Âlem Tarihi: ${today.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</small>
+        `;
       };
 
-      // Artık yıl kontrolü (4 yılda bir)
-      function isArtikYil(yil) {
-        return (yil % 4) === 0;
-      }
+      function cevir() {
+        // const tarihStr = document.getElementById("miladiTarih").value;
+        // if (!tarihStr) return;
 
-      // Hicrî tarih hesaplama
-      function getHijriDate(gregorianDate) {
-        const hijriOffset = 579;
-        const hijriYear = Math.floor((gregorianDate.getFullYear() * 354 - hijriOffset) / 365);
-        const dayOfYear = Math.floor((gregorianDate - new Date(gregorianDate.getFullYear(), 0, 0)) / 86400000);
-        const hijriMonth = Math.floor((dayOfYear * 12) / 365);
-        const hijriDay = Math.floor(dayOfYear - (hijriMonth * 29.53)) + 1;
+        // const tarih = new Date(tarihStr);
+        // const farkGun = Math.floor((tarih - BASLANGIC) / (1000 * 60 * 60 * 24));
+        // const isRS = farkGun >= 0;
+        // const absGun = Math.abs(farkGun);
+
+        // let yillar = Math.floor((absGun + 1) / 365) + 1;
+        // let artikYilSayisi = Math.floor(yillar / 4);
+        // let kalanGun = absGun - (yillar * 365 + artikYilSayisi);
+
+        // const yilEtiketi = isRS ? "RS" : "RÖ";
+
+        // if (kalanGun === 0) {
+        //   document.getElementById("sonuc").innerHTML = `
+        //     <h3><i class="fas fa-infinity"></i> Yevme'l Sıfr (∅)</h3>
+        //     <p>${yillar} ${yilEtiketi} yılının başlangıç noktası</p>
+        //     <small>Zamanın sıfır noktası, bütün olasılıkların tohumu</small>
+        //   `;
+        //   return;
+        // }
+        const tarihStr = document.getElementById("miladiTarih").value;
+        if (!tarihStr) return;
+
+        const tarih = new Date(tarihStr);
+        const farkGun = Math.floor((tarih - BASLANGIC) / (1000 * 60 * 60 * 24));
+        const isRS = farkGun >= 0;
+        const absGun = Math.abs(farkGun);
+
+        let yillar = Math.floor((absGun + 1) / 365) +1;
+        let artikYilSayisi = Math.floor(yillar / 4);
+        let kalanGun = absGun - ((yillar-1) * 365 + artikYilSayisi);
+
         
-        return {
-          year: hijriYear,
-          month: hijriMonth,
-          day: hijriDay,
-          monthName: hijriMonths[hijriMonth]
-        };
-      }
+        const yilEtiketi = isRS ? "RS" : "RÖ";
 
-      // Hicrî özel gün kontrolü
-      function checkHijriSpecialDay(hijriDate) {
-        const key = `${hijriDate.month+1}-${hijriDate.day}`;
-        return hijriSpecialDays[key] || null;
-      }
-
-      // Tüm tarihleri güncelle
-      function updateAllDates() {
-        const today = new Date();
-        
-        // Miladî
-        document.getElementById('gregorianDate').textContent = 
-          today.toLocaleDateString('tr-TR');
-        
-        // Hicrî
-        const hijri = getHijriDate(today);
-        document.getElementById('hijriDate').textContent = 
-          `${hijri.day} ${hijri.monthName} ${hijri.year}`;
-        document.getElementById('currentHijriMonth').textContent = hijri.monthName;
-        
-        // Sırrî
-        const sirri = tarihCevir(today);
-        document.getElementById('sirriDate').textContent = 
-          sirri.sonuc.replace(/<[^>]+>/g, '').split('(')[0];
-      }
-
-      // Hicrî bilgi panelini göster
-      function showHijriInfo() {
-        const panel = document.getElementById('hijriInfoPanel');
-        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-        
-        const today = new Date();
-        const hijri = getHijriDate(today);
-        const specialDay = checkHijriSpecialDay(hijri);
-        
-        document.getElementById('hijriSpecialDay').textContent = 
-          specialDay ? `★ Özel Gün: ${specialDay}` : "Bu ayın bilinen özel günü yok";
-      }
-
-      function getMonthClass(ayIndex) {
-        if (ayIndex === -1) return "zero-day"; // Yevme'l Sıfr için
-        const monthType = aylar[ayIndex].type;
-        if (monthType === "chemical") return "chemical-month";
-        if (monthType === "metaphysical") return "metaphysical-month";
-        if (monthType === "secret") return "secret-month";
-        return "";
-      }
-
-      function tarihCevir(tarih) {
-        const baslangic = new Date("2022-04-13");
-        const farkGun = Math.floor((tarih - baslangic) / (1000 * 60 * 60 * 24));
-
-        // Yıl hesaplaması
-        const yillar = Math.floor(farkGun / 365);
-        let kalanGun = farkGun % 365;
-        
-        // Artık yıl kontrolü (Şehadet ayı 29 gün olacak)
-        const currentYear = yillar >= 0 ? yillar + 1 : Math.abs(yillar);
-        const sehadetDays = isArtikYil(currentYear) ? 29 : 28;
-        const normalYilGun = 364; // 28*13
-        const artikYilGun = 365; // 28*12 + 29
-        
-        // Yıl gösterimi
-        let yilGosterim;
-        if (yillar < 0) {
-          yilGosterim = `${Math.abs(yillar)} RÖ`;
-        } else {
-          yilGosterim = `${yillar+1} RS`;
-        }
-
-        // Negatif günleri pozitife çevir (RÖ tarihleri için)
-        if (kalanGun < 0) {
-          kalanGun += (isArtikYil(currentYear) ? 365 : 364);
-        }
-
-        // Yevme'l Sıfr kontrolü (yılın 0. günü)
         if (kalanGun === 0) {
-          return {
-            ozelGun: true,
-            sonuc: `Bugün ${yilGosterim} yılı <span class="zero-day">Yevme'l Sıfr (∅/${yillar+1})</span> günüdür.`,
-          };
+          document.getElementById("sonuc").innerHTML = `
+            <strong>Yevme'l Sıfr</strong> (&#8709;/${yillar} ${yilEtiketi})
+          `;
+          return;
         }
-
-        // Normal günler için hesaplama (1-364)
+       // console.log(absGun);
+       // console.log(yillar);
+        kalanGun -= 1;
         let ay, gun;
-        const adjustedDay = kalanGun - 1; // 0. günü çıkarıyoruz
-        
-        if (adjustedDay < 336) { // 12*28 = 336
-          ay = Math.floor(adjustedDay / 28);
-          gun = (adjustedDay % 28) + 1;
+        if (kalanGun < 336) {
+          ay = Math.floor(kalanGun / 28);
+          gun = (kalanGun % 28) + 1;
         } else {
-          // Şehadet ayı
           ay = 12;
-          gun = adjustedDay - 335; // 12*28-1 = 335
+          gun = kalanGun - 335;
         }
 
         const haftaninGunu = gunler[(tarih.getDay() + 6) % 7];
-
-        // Özel gün kontrolü
-        let ozel = "";
-        if (ay === 5 && gun === 21) {
-          ozel = " - Bugün <strong>Zuhur Gecesi</strong>!";
-        }
-        if (ay === 12 && gun <= 7) {
-          ozel = " - <em>Rüyâ Haftası</em> içindesin.";
-        }
-
-        const monthClass = getMonthClass(ay);
-        const monthName = aylar[ay].name;
-        
-        return {
-          ozelGun: false,
-          sonuc: `${gun} <span class="${monthClass}">${monthName}</span> ${yilGosterim} (${haftaninGunu})${ozel}`,
+        document.getElementById("sonuc").innerHTML = `
+          <h3>${gun} <span style="color: var(--gold)">${aylar[ay]}</span> ${yillar} ${yilEtiketi}</h3>
+          <p>${haftaninGunu} günü</p>
+          <small>${getDayMeaning(haftaninGunu)}</small>
+        `;
+      }
+      
+      function getDayMeaning(day) {
+        const meanings = {
+          "Fetih": "Açılım, başlangıç ve niyet günü",
+          "Tefekkür": "Derin düşünce ve içe bakış zamanı",
+          "Hikmet": "Bilgeliğin zuhur ettiği gün",
+          "Kelam": "Sözün kudretinin tecellisi",
+          "Zikir": "Kalbin cilalandığı anlar",
+          "Meydan": "Nefsle mücadelenin günü",
+          "Sükûn": "Teslimiyet ve huzur vakti"
         };
+        return meanings[day] || "";
       }
-
-      function cevir() {
-        const girilenTarih = document.getElementById("miladiTarih").value;
-        if (!girilenTarih) return;
-
-        const tarih = new Date(girilenTarih);
-        const ceviriSonucu = tarihCevir(tarih);
-        document.getElementById("sonuc").innerHTML = ceviriSonucu.sonuc;
-      }
-
-      // Sayfa yüklendiğinde bugünün tarihini göster
-      function bugunGoster() {
-        const bugun = new Date();
-        const miladiTarih = bugun.toISOString().split("T")[0];
-        document.getElementById("miladiTarih").value = miladiTarih;
-
-        const ceviriSonucu = tarihCevir(bugun);
-        document.getElementById(
-          "bugun"
-        ).innerHTML = `<h3>Bugün (${bugun.toLocaleDateString("tr-TR")})</h3>
-         <p>${ceviriSonucu.sonuc}</p>`;
-      }
-
-      // Sayfa yüklendiğinde fonksiyonları çağır
-      window.onload = function() {
-        bugunGoster();
-        updateAllDates();
-      };
     </script>
   </body>
 </html>
