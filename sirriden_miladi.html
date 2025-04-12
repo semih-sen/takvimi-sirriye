@@ -415,7 +415,21 @@
 
     <script>
       const BASLANGIC = new Date("2022-04-13");
-      
+      const aylar = [
+        "Zehr-i Cihan",
+        "Shalgum",
+        "Hadid",
+        "Muriat",
+        "Zarnikh",
+        "Mavera",
+        "İlham",
+        "Keşf",
+        "Berzah",
+        "Mi'râc",
+        "Nûr",
+        "Nefes",
+        "Şehâdet",
+      ];
       // Show current Gregorian date
       window.onload = function() {
         const today = new Date();
@@ -424,59 +438,212 @@
         `;
       };
 
-      function isArtikYil(yil) {
-        return yil % 4 === 0;
-      }
-
       function cevir() {
-        const gun = parseInt(document.getElementById("gun").value);
-        const ay = parseInt(document.getElementById("ay").value);
-        const yil = parseInt(document.getElementById("yil").value);
-        const tip = document.getElementById("tip").value;
+  const gun = parseInt(document.getElementById("gun").value);
+  const ay = parseInt(document.getElementById("ay").value);
+  let yil = parseInt(document.getElementById("yil").value);
+  const tip = document.getElementById("tip").value;
+  
 
-        let toplamGun = (yil - 1) * 365 + Math.floor((yil - 1) / 4);
-        if (ay >= 0) {
-          toplamGun += 1;
-          toplamGun += ay < 12 ? ay * 28 : 336;
-          toplamGun += gun - 1;
-          if (isArtikYil(yil) && ay === 12 && gun > 28) toplamGun += 1;
-        }
+  // Yevme'l Sıfr için özel kontrol
+  if (ay === -1) {
+    let miladi;
+    if (tip === "RS") {
+      // RS için yıl başlangıcı
+      miladi = new Date(BASLANGIC.getTime() + ((yil-1)*365 + Math.floor((yil-1)/4)) * 86400000);
+    } else {
+      // RÖ için yıl başlangıcı (1 yıl daha ekliyoruz)
+      miladi = new Date(BASLANGIC.getTime() - (yil*365 + Math.floor(yil/4)) * 86400000);
+    }
+    
+    document.getElementById("sonuc").innerHTML = `
+      <div class="symbol">
+        <i class="fas fa-infinity"></i>
+      </div>
+      <h3>Yevme'l Sıfr (∅)</h3>
+      <p>${miladi.toLocaleDateString("tr-TR", {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })}</p>
+    `;
+    return;
+  }
 
-        let miladi;
-        if (tip === "RS") {
-          miladi = new Date(BASLANGIC.getTime() + toplamGun * 86400000);
-        } else {
-          miladi = new Date(BASLANGIC.getTime() - toplamGun * 86400000);
-        }
+  // Normal tarihler için hesaplama
+  let toplamGun = (yil-1)*365 + Math.floor((yil-1)/4); // Yıllar
+  toplamGun += 1; // Yevme'l Sıfr
+  toplamGun += ay < 12 ? ay*28 : 336; // Aylar
+  toplamGun += gun-1; // Günler
+  
+  // Artık yıl düzeltmesi
+  if (isArtikYil(yil) && ay === 12 && gun > 28) {
+    toplamGun += 1;
+  }
 
-        const options = { 
-          weekday: 'long', 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric'
-          
-        };
-        
-        if (ay === -1) {
-          document.getElementById("sonuc").innerHTML = `
-            <div class="symbol">
-              <i class="fas fa-infinity"></i>
-            </div>
-            <h3>Yevme'l Sıfr (∅)</h3>
-            <p>${yil} ${tip === "RS" ? "Rüyadan Sonra" : "Rüyadan Önce"}</p>
-            <small>Zamanın sıfır noktası, bütün olasılıkların tohumu</small>
-          `;
-        } else {
-          document.getElementById("sonuc").innerHTML = `
-            <div class="symbol">
-              <i class="fas fa-calendar-check"></i>
-            </div>
-            <h3>Zahir Âlemdeki Karşılığı</h3>
-            <p>${miladi.toLocaleDateString("tr-TR", options)}</p>
-            <small>${getAyDescription(ay)}</small>
-          `;
-        }
-      }
+  // Miladi tarih hesaplama
+  const miladi = new Date(
+    tip === "RS"
+      ? BASLANGIC.getTime() + toplamGun*86400000
+      : BASLANGIC.getTime() - (toplamGun)*86400000
+  );
+
+  // Sonucu göster
+  document.getElementById("sonuc").innerHTML = `
+    <div class="symbol">
+      <i class="fas fa-calendar-check"></i>
+    </div>
+    <h3>Zahir Âlemdeki Karşılığı</h3>
+    <p>${miladi.toLocaleDateString("tr-TR", {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })}</p>
+  `;
+}
+
+//       function cevir() {
+//   const gun = parseInt(document.getElementById("gun").value);
+//   const ay = parseInt(document.getElementById("ay").value);
+//   const yil = parseInt(document.getElementById("yil").value);
+//   const tip = document.getElementById("tip").value;
+
+//   // 1. Yıl başına kadar olan toplam gün sayısı
+//   let toplamGun = 0;
+  
+//   // Yılları ekle (artık yıllar dahil)
+//   for (let y = 1; y < yil; y++) {
+//     toplamGun += (y % 4 === 0) ? 366 : 365;
+//   }
+  
+//   // Mevcut yılın günlerini ekle
+//   if (ay >= 0) { // Yevme'l Sıfr değilse
+//     toplamGun += 1; // Yevme'l Sıfr (1 gün)
+//     toplamGun += (ay < 12) ? ay * 28 : 336; // Aylar (12*28=336)
+//     toplamGun += gun - 1; // Günler
+    
+//     // Artık yılda Şehâdet ayı 29 gün
+//     if ((yil % 4 === 0) && ay === 12 && gun > 28) {
+//       toplamGun += 1;
+//     }
+//   }
+
+//   // 2. Miladi tarih hesapla (RÖ için 1 yıl düzeltmesi yapıyoruz)
+//   const miladi = new Date(
+//     tip === "RS" 
+//       ? BASLANGIC.getTime() + toplamGun * 86400000
+//       : BASLANGIC.getTime() - (toplamGun - 365) * 86400000
+//   );
+
+//   // 3. Sonucu göster
+//   const tarihStr = miladi.toLocaleDateString("tr-TR", {
+//     weekday: 'long',
+//     year: 'numeric',
+//     month: 'long',
+//     day: 'numeric'
+//   });
+  
+//   document.getElementById("sonuc").innerHTML = ay === -1
+//     ? `<h3>Yevme'l Sıfr (∅)</h3><p>${yil} ${tip}</p>`
+//     : `<h3>Zahir Âlemdeki Karşılığı</h3><p>${tarihStr}</p>`;
+// }
+
+
+      //function isArtikYil(yil) {
+     //   return yil % 4 === 0;
+     //  }
+
+//      function cevir() {
+//   const gun = parseInt(document.getElementById("gun").value);
+//   const ay = parseInt(document.getElementById("ay").value);
+//   const yil = parseInt(document.getElementById("yil").value);
+//   const tip = document.getElementById("tip").value;
+
+//   // 1. Önce Sırrî takvimdeki toplam gün sayısını hesapla
+//   let toplamGun = 0;
+  
+//   // Yılları ekle (artık yılları dikkate alarak)
+//   for (let y = 1; y < yil; y++) {
+//     toplamGun += isSirriArtikYil(y) ? 366 : 365;
+//   }
+  
+//   // Mevcut yılın günlerini ekle (Yevme'l Sıfr hariç)
+//   if (ay >= 0) {
+//     // Yevme'l Sıfr'ı ekle (1 gün)
+//     toplamGun += 1;
+    
+//     // Ayları ekle
+//     if (ay < 12) {
+//       toplamGun += ay * 28;
+//     } else {
+//       toplamGun += 336; // 12*28
+//     }
+    
+//     // Günleri ekle
+//     toplamGun += gun - 1;
+    
+//     // Artık yılda ve Şehâdet ayındaysa 29. günü kontrol et
+//     if (isSirriArtikYil(yil) && ay === 12 && gun > 28) {
+//       toplamGun += 1;
+//     }
+//   }
+
+//   // 2. Miladi tarih hesapla
+//   let miladi;
+//   const birGun = 86400000; // milisaniye cinsinden 1 gün
+  
+//   if (tip === "RS") {
+//     miladi = new Date(BASLANGIC.getTime() + toplamGun * birGun);
+//   } else {
+//     miladi = new Date(BASLANGIC.getTime() - toplamGun * birGun);
+    
+//     // RÖ için 1 gün daha ekleyerek düzeltme yapıyoruz
+//     miladi = new Date(miladi.getTime() + birGun);
+//   }
+
+//   // 3. Sonucu göster
+//   const options = { 
+//     weekday: 'long', 
+//     year: 'numeric', 
+//     month: 'long', 
+//     day: 'numeric',
+//     hour: '2-digit',
+//     minute: '2-digit'
+//   };
+  
+//   const tarihStr = miladi.toLocaleDateString("tr-TR", options);
+  
+//   if (ay === -1) {
+//     document.getElementById("sonuc").innerHTML = `
+//       <div class="symbol">
+//         <i class="fas fa-infinity"></i>
+//       </div>
+//       <h3>Yevme'l Sıfr (∅)</h3>
+//       <p>${yil} ${tip}</p>
+//     `;
+//   } else {
+//     document.getElementById("sonuc").innerHTML = `
+//       <div class="symbol">
+//         <i class="fas fa-calendar-check"></i>
+//       </div>
+//       <h3>Zahir Âlemdeki Karşılığı</h3>
+//       <p>${tarihStr}</p>
+//       <p><small>${getAyDescription(ay)}</small></p>
+//     `;
+//   }
+// }
+
+function isSirriArtikYil(yil) {
+  // Takvim-i Sırriyye'ye özel artık yıl kuralı (4'ün katları)
+  return yil % 4 === 0;
+}
+
+function isArtikYil(yil) {
+  // Takvim-i Sırriyye'ye özel artık yıl kuralı (4'ün katları)
+  return yil % 4 === 0;
+}
       
       function getAyDescription(ay) {
         const descriptions = [
@@ -496,6 +663,33 @@
         ];
         return ay >= 0 ? descriptions[ay] : "";
       }
+
+      function testCevir(gun, ay, yil, tip, beklenenTarih) {
+  const orjinalGun = document.getElementById("gun").value;
+  const orjinalAy = document.getElementById("ay").value;
+  const orjinalYil = document.getElementById("yil").value;
+  const orjinalTip = document.getElementById("tip").value;
+  
+  // Değerleri geçici olarak değiştir
+  document.getElementById("gun").value = gun;
+  document.getElementById("ay").value = ay;
+  document.getElementById("yil").value = yil;
+  document.getElementById("tip").value = tip;
+  
+  // Çevir fonksiyonunu çalıştır
+  cevir();
+  
+  // Sonucu al
+  const sonuc = document.getElementById("sonuc").innerText;
+  
+  // Eski değerlere geri dön
+  document.getElementById("gun").value = orjinalGun;
+  document.getElementById("ay").value = orjinalAy;
+  document.getElementById("yil").value = orjinalYil;
+  document.getElementById("tip").value = orjinalTip;
+  
+  console.log(`TEST: ${gun} ${aylar[ay]} ${yil} ${tip} => ${sonuc.includes(beklenenTarih) ? '✅' : '❌'} Beklenen: ${beklenenTarih}`);
+}
     </script>
   </body>
 </html>

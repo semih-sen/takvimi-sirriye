@@ -113,10 +113,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Takvîm-i Sırriyye | Miladî'den Sırrî'ye</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
-      
+      @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap");
+
       :root {
         --gold: #d4af37;
         --dark-gold: #b7950b;
@@ -125,20 +128,21 @@
         --text-light: #e0d7c6;
         --text-lighter: #f5f0e5;
       }
-      
+
       body {
-        font-family: 'EB Garamond', serif;
-        background: linear-gradient(to bottom, var(--bg-dark), var(--bg-darker)), 
-                    url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat fixed;
+        font-family: "EB Garamond", serif;
+        background: linear-gradient(to bottom, var(--bg-dark), var(--bg-darker)),
+          url("https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop")
+            center/cover no-repeat fixed;
         color: var(--text-light);
         text-align: center;
         padding: 2rem;
         min-height: 100vh;
         position: relative;
       }
-      
+
       body::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -147,13 +151,13 @@
         background: rgba(5, 5, 5, 0.85);
         z-index: -1;
       }
-      
+
       .navbar {
         margin-bottom: 3rem;
         padding: 1rem;
         border-bottom: 1px solid rgba(212, 175, 55, 0.3);
       }
-      
+
       .navbar a {
         color: var(--gold);
         text-decoration: none;
@@ -163,15 +167,15 @@
         letter-spacing: 1px;
         transition: all 0.3s ease;
         position: relative;
-        font-family: 'Cinzel Decorative', cursive;
+        font-family: "Cinzel Decorative", cursive;
       }
-      
+
       .navbar a:hover {
         color: var(--text-lighter);
       }
-      
+
       .navbar a::after {
-        content: '';
+        content: "";
         position: absolute;
         width: 0;
         height: 2px;
@@ -180,27 +184,27 @@
         background-color: var(--gold);
         transition: width 0.3s ease;
       }
-      
+
       .navbar a:hover::after {
         width: 100%;
       }
-      
+
       h1 {
-        font-family: 'Cinzel Decorative', cursive;
+        font-family: "Cinzel Decorative", cursive;
         color: var(--gold);
         font-size: 3rem;
         margin-bottom: 1rem;
         text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         letter-spacing: 2px;
       }
-      
+
       p.subtitle {
         font-style: italic;
         font-size: 1.2rem;
         margin-bottom: 2rem;
         opacity: 0.9;
       }
-      
+
       .date-container {
         display: flex;
         justify-content: center;
@@ -208,7 +212,7 @@
         gap: 1rem;
         margin-bottom: 2rem;
       }
-      
+
       input[type="date"] {
         padding: 0.8rem;
         font-size: 1.1rem;
@@ -216,10 +220,10 @@
         color: var(--text-light);
         border: 1px solid var(--gold);
         border-radius: 4px;
-        font-family: 'EB Garamond', serif;
+        font-family: "EB Garamond", serif;
         min-width: 220px;
       }
-      
+
       button {
         padding: 0.8rem 1.5rem;
         font-size: 1.1rem;
@@ -230,17 +234,17 @@
         border: none;
         border-radius: 4px;
         transition: all 0.3s ease;
-        font-family: 'Cinzel Decorative', cursive;
+        font-family: "Cinzel Decorative", cursive;
         letter-spacing: 1px;
         box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
       }
-      
+
       button:hover {
         background: var(--dark-gold);
         transform: translateY(-2px);
         box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
       }
-      
+
       .result {
         margin: 2rem auto;
         font-size: 1.5rem;
@@ -253,18 +257,22 @@
         position: relative;
         overflow: hidden;
       }
-      
+
       .result::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+        background: linear-gradient(
+          135deg,
+          rgba(212, 175, 55, 0.1) 0%,
+          transparent 100%
+        );
         z-index: -1;
       }
-      
+
       .today-btn {
         margin-top: 1.5rem;
         background: transparent;
@@ -273,17 +281,17 @@
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
       }
-      
+
       .today-btn:hover {
         background: rgba(212, 175, 55, 0.1);
       }
-      
+
       .moon-phase {
         font-size: 2rem;
         margin: 0.5rem;
         animation: glow 2s infinite alternate;
       }
-      
+
       @keyframes glow {
         from {
           text-shadow: 0 0 5px var(--gold);
@@ -292,7 +300,7 @@
           text-shadow: 0 0 15px var(--gold), 0 0 20px rgba(212, 175, 55, 0.5);
         }
       }
-      
+
       .current-date {
         margin-top: 2rem;
         padding: 1rem;
@@ -305,140 +313,401 @@
   </head>
   <body>
     <div class="navbar">
-      <a href="index.html"><i class="fas fa-calendar-alt"></i> Miladî'den Sırrî'ye</a>
-      <a href="sirriden_miladi.html"><i class="fas fa-moon"></i> Sırrî'den Miladî'ye</a>
+      <a href="index.html"
+        ><i class="fas fa-calendar-alt"></i> Miladî'den Sırrî'ye</a
+      >
+      <a href="sirriden_miladi.html"
+        ><i class="fas fa-moon"></i> Sırrî'den Miladî'ye</a
+      >
       <a href="bilgiler.html"><i class="fas fa-book"></i> Ehlî Sır Bilgileri</a>
     </div>
-    
+
     <div class="moon-phase">
       <i class="fas fa-moon"></i>
     </div>
-    
+
     <h1>Takvîm-i Sırriyye</h1>
-    <p class="subtitle">Miladî tarihi giriniz, Sırrî zamanın kapılarını aralayınız...</p>
-    
+    <p class="subtitle">
+      Miladî tarihi giriniz, Sırrî zamanın kapılarını aralayınız...
+    </p>
+
     <div class="date-container">
       <input type="date" id="miladiTarih" />
-      <button onclick="cevir()"><i class="fas fa-exchange-alt"></i> Çevir</button>
+      <button onclick="cevir()">
+        <i class="fas fa-exchange-alt"></i> Çevir
+      </button>
     </div>
-    
-    <button class="today-btn" onclick="showToday()"><i class="fas fa-star"></i> Bugünün Sırrî Tarihi</button>
-    
+
+    <button class="today-btn" onclick="showToday()">
+      <i class="fas fa-star"></i> Bugünün Sırrî Tarihi
+    </button>
+
     <div class="result" id="sonuc"></div>
-    
+
     <div class="current-date" id="currentDate"></div>
 
     <script>
       const aylar = [
-        "Zehr-i Cihan", "Shalgum", "Hadid", "Muriat", "Zarnikh", "Mavera",
-        "İlham", "Keşf", "Berzah", "Mi'râc", "Nûr", "Nefes", "Şehâdet"
+        "Zehr-i Cihan",
+        "Shalgum",
+        "Hadid",
+        "Muriat",
+        "Zarnikh",
+        "Mavera",
+        "İlham",
+        "Keşf",
+        "Berzah",
+        "Mi'râc",
+        "Nûr",
+        "Nefes",
+        "Şehâdet",
       ];
-      const gunler = ["Fetih", "Tefekkür", "Hikmet", "Kelam", "Zikir", "Meydan", "Sükûn"];
+      const gunler = [
+        "Fetih",
+        "Tefekkür",
+        "Hikmet",
+        "Kelam",
+        "Zikir",
+        "Meydan",
+        "Sükûn",
+      ];
       const BASLANGIC = new Date("2022-04-13");
-      
+      function isArtikYil(yil) {
+        return (yil % 4 === 0 && yil % 100 !== 0) || yil % 400 === 0;
+      }
       // Update moon phase randomly (for demo)
-      const moonPhases = ['fa-moon', 'fa-moon', 'fa-moon', 'fa-moon'];
+      const moonPhases = ["fa-moon", "fa-moon", "fa-moon", "fa-moon"];
       setInterval(() => {
-        const randomPhase = moonPhases[Math.floor(Math.random() * moonPhases.length)];
-        document.querySelector('.moon-phase i').className = `fas ${randomPhase}`;
+        const randomPhase =
+          moonPhases[Math.floor(Math.random() * moonPhases.length)];
+        document.querySelector(
+          ".moon-phase i"
+        ).className = `fas ${randomPhase}`;
       }, 5000);
 
       function showToday() {
         const today = new Date();
         const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        document.getElementById('miladiTarih').value = `${year}-${month}-${day}`;
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+        document.getElementById(
+          "miladiTarih"
+        ).value = `${year}-${month}-${day}`;
         cevir();
       }
-      
+
       // Show today's date on load
-      window.onload = function() {
+      window.onload = function () {
         showToday();
-        
+
         // Show current Gregorian date
         const today = new Date();
-        document.getElementById('currentDate').innerHTML = `
-          <small>Zahir Âlem Tarihi: ${today.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</small>
+        document.getElementById("currentDate").innerHTML = `
+          <small>Zahir Âlem Tarihi: ${today.toLocaleDateString("tr-TR", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}</small>
         `;
       };
 
-      function cevir() {
-        // const tarihStr = document.getElementById("miladiTarih").value;
-        // if (!tarihStr) return;
+      // function cevir() {
+      //   // const tarihStr = document.getElementById("miladiTarih").value;
+      //   // if (!tarihStr) return;
 
-        // const tarih = new Date(tarihStr);
-        // const farkGun = Math.floor((tarih - BASLANGIC) / (1000 * 60 * 60 * 24));
-        // const isRS = farkGun >= 0;
-        // const absGun = Math.abs(farkGun);
+      //   // const tarih = new Date(tarihStr);
+      //   // const farkGun = Math.floor((tarih - BASLANGIC) / (1000 * 60 * 60 * 24));
+      //   // const isRS = farkGun >= 0;
+      //   // const absGun = Math.abs(farkGun);
 
-        // let yillar = Math.floor((absGun + 1) / 365) + 1;
-        // let artikYilSayisi = Math.floor(yillar / 4);
-        // let kalanGun = absGun - (yillar * 365 + artikYilSayisi);
+      //   // let yillar = Math.floor((absGun + 1) / 365) + 1;
+      //   // let artikYilSayisi = Math.floor(yillar / 4);
+      //   // let kalanGun = absGun - (yillar * 365 + artikYilSayisi);
 
-        // const yilEtiketi = isRS ? "RS" : "RÖ";
+      //   // const yilEtiketi = isRS ? "RS" : "RÖ";
 
-        // if (kalanGun === 0) {
-        //   document.getElementById("sonuc").innerHTML = `
-        //     <h3><i class="fas fa-infinity"></i> Yevme'l Sıfr (∅)</h3>
-        //     <p>${yillar} ${yilEtiketi} yılının başlangıç noktası</p>
-        //     <small>Zamanın sıfır noktası, bütün olasılıkların tohumu</small>
-        //   `;
-        //   return;
-        // }
-        const tarihStr = document.getElementById("miladiTarih").value;
-        if (!tarihStr) return;
+      //   // if (kalanGun === 0) {
+      //   //   document.getElementById("sonuc").innerHTML = `
+      //   //     <h3><i class="fas fa-infinity"></i> Yevme'l Sıfr (∅)</h3>
+      //   //     <p>${yillar} ${yilEtiketi} yılının başlangıç noktası</p>
+      //   //     <small>Zamanın sıfır noktası, bütün olasılıkların tohumu</small>
+      //   //   `;
+      //   //   return;
+      //   // }
+      //   const tarihStr = document.getElementById("miladiTarih").value;
+      //   if (!tarihStr) return;
 
-        const tarih = new Date(tarihStr);
-        const farkGun = Math.floor((tarih - BASLANGIC) / (1000 * 60 * 60 * 24));
-        const isRS = farkGun >= 0;
-        const absGun = Math.abs(farkGun);
+      //   const tarih = new Date(tarihStr);
+      //   const farkGun = Math.floor((tarih - BASLANGIC) / (1000 * 60 * 60 * 24));
+      //   const isRS = farkGun >= 0;
+      //   const absGun = Math.abs(farkGun);
 
-        let yillar = Math.floor((absGun + 1) / 365) +1;
-        let artikYilSayisi = Math.floor(yillar / 4);
-        let kalanGun = absGun - ((yillar-1) * 365 + artikYilSayisi);
+      //   let yillar = Math.floor((absGun + 1) / 365) + 1;
+      //   let artikYilSayisi = Math.floor(yillar / 4);
+      //   let kalanGun = absGun - ((yillar - 1) * 365 + artikYilSayisi);
 
-        
-        const yilEtiketi = isRS ? "RS" : "RÖ";
+      //   const yilEtiketi = isRS ? "RS" : "RÖ";
 
-        if (kalanGun === 0) {
-          document.getElementById("sonuc").innerHTML = `
-            <strong>Yevme'l Sıfr</strong> (&#8709;/${yillar} ${yilEtiketi})
-          `;
-          return;
-        }
-       // console.log(absGun);
-       // console.log(yillar);
-        kalanGun -= 1;
-        let ay, gun;
-        if (kalanGun < 336) {
-          ay = Math.floor(kalanGun / 28);
-          gun = (kalanGun % 28) + 1;
-        } else {
-          ay = 12;
-          gun = kalanGun - 335;
-        }
+      //   if (kalanGun === 0) {
+      //     document.getElementById("sonuc").innerHTML = `
+      //       <strong>Yevme'l Sıfr</strong> (&#8709;/${yillar} ${yilEtiketi})
+      //     `;
+      //     return;
+      //   }
+      //   console.log(absGun);
+      //   console.log(kalanGun);
 
-        const haftaninGunu = gunler[(tarih.getDay() + 6) % 7];
-        document.getElementById("sonuc").innerHTML = `
-          <h3>${gun} <span style="color: var(--gold)">${aylar[ay]}</span> ${yillar} ${yilEtiketi}</h3>
-          <p>${haftaninGunu} günü</p>
-          <small>${getDayMeaning(haftaninGunu)}</small>
-        `;
-      }
-      
+      //   console.log(yillar);
+      //   kalanGun -= 1;
+      //   if(kalanGun<0){
+      //     kalanGun+=365
+      //     yillar--;
+      //   }
+      //   let ay, gun;
+
+      //    if (-1 < kalanGun < 336) {
+      //     ay = Math.floor(kalanGun / 28);
+      //     gun = (kalanGun % 28) + 1;
+      //   } else {
+      //     ay = 12;
+      //     gun = kalanGun - 335;
+      //   }
+
+      //   const haftaninGunu = gunler[(tarih.getDay() + 6) % 7];
+      //   document.getElementById("sonuc").innerHTML = `
+      //     <h3>${gun} <span style="color: var(--gold)">${
+      //     aylar[ay]
+      //   }</span> ${yillar} ${yilEtiketi}</h3>
+      //     <p>${haftaninGunu} günü</p>
+      //     <small>${getDayMeaning(haftaninGunu)}</small>
+      //   `;
+      // }
+
       function getDayMeaning(day) {
         const meanings = {
-          "Fetih": "Açılım, başlangıç ve niyet günü",
-          "Tefekkür": "Derin düşünce ve içe bakış zamanı",
-          "Hikmet": "Bilgeliğin zuhur ettiği gün",
-          "Kelam": "Sözün kudretinin tecellisi",
-          "Zikir": "Kalbin cilalandığı anlar",
-          "Meydan": "Nefsle mücadelenin günü",
-          "Sükûn": "Teslimiyet ve huzur vakti"
+          Fetih: "Açılım, başlangıç ve niyet günü",
+          Tefekkür: "Derin düşünce ve içe bakış zamanı",
+          Hikmet: "Bilgeliğin zuhur ettiği gün",
+          Kelam: "Sözün kudretinin tecellisi",
+          Zikir: "Kalbin cilalandığı anlar",
+          Meydan: "Nefsle mücadelenin günü",
+          Sükûn: "Teslimiyet ve huzur vakti",
         };
         return meanings[day] || "";
       }
+
+
+    
+
+
+
+      function cevir() {
+  const tarihStr = document.getElementById("miladiTarih").value;
+  if (!tarihStr) return;
+
+  const tarih = new Date(tarihStr + "T00:00:00");
+  const baslangic = new Date(BASLANGIC);
+  baslangic.setHours(0, 0, 0, 0);
+  
+  const farkGun = Math.floor((tarih - baslangic) / (1000 * 60 * 60 * 24));
+  const isRS = farkGun >= 0;
+  const absGun = Math.abs(farkGun);
+
+  // RÖ (Rüyadan Önce) için özel hesaplama
+  if (!isRS) {
+    
+    
+    // Diğer RÖ tarihleri için genel çözüm
+    let yil = 0;
+    let kalanGun = absGun; // 1 günü (28 Şehâdet) çıkarıyoruz
+    
+    while (yil <= 100) {
+      const yilGunSayisi = (yil % 4 === 0) ? 366 : 365;
+      
+      if (kalanGun < yilGunSayisi) break;
+      
+      kalanGun -= yilGunSayisi;
+      yil++;
+    }
+    
+    // RÖ için ay ve gün hesaplama
+    let ay, gun;
+    if (kalanGun < 336) {
+      ay = Math.floor(kalanGun / 28);
+      gun = (kalanGun % 28) + 1;
+    } else {
+      ay = 12;
+      gun = kalanGun - 335;
+    }
+    
+    // Artık yıl kontrolü (RÖ için)
+    if ((yil % 4 === 0) && ay === 12 && gun > 28) {
+      gun = 29;
+    }
+
+    const haftaninGunu = gunler[(tarih.getDay() + 6) % 7];
+    document.getElementById("sonuc").innerHTML = `
+      <h3>${gun} <span style="color: var(--gold)">${aylar[ay]}</span> ${yil + 1} RÖ</h3>
+      <p>${haftaninGunu} günü</p>
+    `;
+    return;
+  }
+
+  // RS (Rüyadan Sonra) için hesaplama
+  let yil = 1;
+  let kalanGun = absGun;
+  
+  while (yil <= 100) {
+    const yilGunSayisi = (yil % 4 === 0) ? 366 : 365;
+    
+    if (kalanGun < yilGunSayisi) break;
+    
+    kalanGun -= yilGunSayisi;
+    yil++;
+  }
+
+  // Yevme'l Sıfr kontrolü
+  if (kalanGun === 0) {
+    document.getElementById("sonuc").innerHTML = `
+      <h3><i class="fas fa-infinity"></i> Yevme'l Sıfr (∅)</h3>
+      <p>${yil} RS yılının başlangıcı</p>
+    `;
+    return;
+  }
+
+  // Normal RS günleri
+  kalanGun--;
+  
+  let ay, gun;
+  if (kalanGun < 336) {
+    ay = Math.floor(kalanGun / 28);
+    gun = (kalanGun % 28) + 1;
+  } else {
+    ay = 12;
+    gun = kalanGun - 335;
+  }
+
+  // RS artık yıl kontrolü
+  if ((yil % 4 === 0) && ay === 12 && gun > 28) {
+    gun = 29;
+  }
+
+  const haftaninGunu = gunler[(tarih.getDay() + 6) % 7];
+  document.getElementById("sonuc").innerHTML = `
+    <h3>${gun} <span style="color: var(--gold)">${aylar[ay]}</span> ${yil} RS</h3>
+    <p>${haftaninGunu} günü</p>
+    <small>${getDayMeaning(haftaninGunu)}</small>
+  `;
+}
+
+
+
+//       function cevir() {
+//   const tarihStr = document.getElementById("miladiTarih").value;
+//   if (!tarihStr) return;
+
+//   const tarih = new Date(tarihStr + "T00:00:00");
+//   const baslangic = new Date(BASLANGIC);
+//   baslangic.setHours(0, 0, 0, 0);
+  
+//   const farkGun = Math.floor((tarih - baslangic) / (1000 * 60 * 60 * 24));
+//   const isRS = farkGun >= 0;
+//   const absGun = Math.abs(farkGun);
+
+//   // RÖ (Rüyadan Önce) için özel hesaplama
+//   if (!isRS) {
+//     // 12 Nisan 2022 (1 gün önce) = 28 Şehâdet 1 RÖ
+//     if (absGun === 1) {
+//       document.getElementById("sonuc").innerHTML = `
+//         <h3>28 <span style="color: var(--gold)">Şehâdet</span> 1 RÖ</h3>
+//         <p>${gunler[(tarih.getDay() + 6) % 7]} günü</p>
+//       `;
+//       return;
+//     }
+    
+//     // Diğer RÖ tarihleri için genel çözüm
+//     let yil = 1;
+//     let kalanGun = absGun - 1; // 1 günü (28 Şehâdet) çıkarıyoruz
+    
+//     while (yil <= 100) {
+//       const yilGunSayisi = (yil % 4 === 0) ? 366 : 365;
+      
+//       if (kalanGun < yilGunSayisi) break;
+      
+//       kalanGun -= yilGunSayisi;
+//       yil++;
+//     }
+    
+//     // RÖ için ay ve gün hesaplama
+//     let ay, gun;
+//     if (kalanGun < 336) {
+//       ay = Math.floor(kalanGun / 28);
+//       gun = (kalanGun % 28) + 1;
+//     } else {
+//       ay = 12;
+//       gun = kalanGun - 335;
+//     }
+    
+//     // Artık yıl kontrolü (RÖ için)
+//     if ((yil % 4 === 0) && ay === 12 && gun > 28) {
+//       gun = 29;
+//     }
+
+//     const haftaninGunu = gunler[(tarih.getDay() + 6) % 7];
+//     document.getElementById("sonuc").innerHTML = `
+//       <h3>${gun} <span style="color: var(--gold)">${aylar[ay]}</span> ${yil + 1} RÖ</h3>
+//       <p>${haftaninGunu} günü</p>
+//     `;
+//     return;
+//   }
+
+//   // RS (Rüyadan Sonra) için hesaplama
+//   let yil = 1;
+//   let kalanGun = absGun;
+  
+//   while (yil <= 100) {
+//     const yilGunSayisi = (yil % 4 === 0) ? 366 : 365;
+    
+//     if (kalanGun < yilGunSayisi) break;
+    
+//     kalanGun -= yilGunSayisi;
+//     yil++;
+//   }
+
+//   // Yevme'l Sıfr kontrolü
+//   if (kalanGun === 0) {
+//     document.getElementById("sonuc").innerHTML = `
+//       <h3><i class="fas fa-infinity"></i> Yevme'l Sıfr (∅)</h3>
+//       <p>${yil} RS yılının başlangıcı</p>
+//     `;
+//     return;
+//   }
+
+//   // Normal RS günleri
+//   kalanGun--;
+  
+//   let ay, gun;
+//   if (kalanGun < 336) {
+//     ay = Math.floor(kalanGun / 28);
+//     gun = (kalanGun % 28) + 1;
+//   } else {
+//     ay = 12;
+//     gun = kalanGun - 335;
+//   }
+
+//   // RS artık yıl kontrolü
+//   if ((yil % 4 === 0) && ay === 12 && gun > 28) {
+//     gun = 29;
+//   }
+
+//   const haftaninGunu = gunler[(tarih.getDay() + 6) % 7];
+//   document.getElementById("sonuc").innerHTML = `
+//     <h3>${gun} <span style="color: var(--gold)">${aylar[ay]}</span> ${yil} RS</h3>
+//     <p>${haftaninGunu} günü</p>
+//     <small>${getDayMeaning(haftaninGunu)}</small>
+//   `;
+// }
     </script>
   </body>
 </html>
