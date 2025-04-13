@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ehli Sır Forumu</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper" id="forrrum">
+      <h1 class="title">Ehli Sır Forumu</h1>
+
+      <form id="mesajForm">
+        <input type="text" id="isim" placeholder="Adın" required />
+        <textarea id="mesaj" placeholder="Mesajın" required></textarea>
+        <input type="hidden" id="parentId" value="0" />
+        <button type="submit">Gönder</button>
+      </form>
+
+      <hr />
+
+      <div id="mesajlar"></div>
+    </div>
+
+    <script>
+      const apiUrl =
+        "https://script.google.com/macros/s/AKfycbx7Ant_Go0BVT45zTJgyrVGKCHplBLBPB--wOvp9adq3-PGWmetVHBgNiMEF2mmeTI/exec"; // buraya Google Apps Script URL’ni yaz
+      const sheetReadUrl =
+        "https://docs.google.com/spreadsheets/d/1CzdR5La3Pj8nsz2O4P2liLXE3lQkCMHaXyQAYuIRUcc/gviz/tq?tqx=out:json"; // Sheet herkese açık olmalı
+
+      // Mesaj Gönder
+      document
+        .getElementById("mesajForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          fetch(apiUrl, {
+            method: "POST",
+            body: JSON.stringify({
+              contents: {
+                isim: document.getElementById("isim").value,
+                mesaj: document.getElementById("mesaj").value,
+                
+              },
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((res) => res.json())
+            .then(() => location.reload());
+        });
+
+      // Mesajları Oku ve Göster
+      fetch(sheetReadUrl)
+        .then((res) => res.text())
+        .then((txt) => {
+          const json = JSON.parse(txt.substr(47).slice(0, -2));
+         
+          const rows = json.table.rows.map((r) => ({
+            tarih: r.c[0]?.f.toString(),
+            isim: r.c[1]?.v,
+            mesaj: r.c[2]?.v,
+          }));
+
+          const container = document.getElementById("mesajlar");
+
+          rows.forEach((msg) => {
+            const msgDiv = createMessageDiv(msg);
+
+            container.appendChild(msgDiv);
+          });
+        });
+
+      function createMessageDiv(data, isReply = false) {
+        const div = document.createElement("div");
+        div.className = isReply ? "reply" : "message";
+        div.innerHTML = `
+        <p><strong>${data.isim}</strong> <em>(${data.tarih})</em></p>
+        <p>${data.mesaj}</p>
+        
+      `;
+        return div;
+      }
+
+      function cevapla(id, isim) {
+        document.getElementById("parentId").value = id;
+        document.getElementById(
+          "mesaj"
+        ).placeholder = `"${isim}" adlı mesaja cevap yaz...`;
+        document.getElementById("mesaj").focus();
+      }
+    </script>
+  </body>
+</html>
