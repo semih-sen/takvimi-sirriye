@@ -113,6 +113,7 @@
         <textarea id="mesaj" placeholder="Mesajın" required></textarea>
         <input type="hidden" id="parentId" value="0" />
         <button type="submit">Gönder</button>
+        <button id="isimUret" type="button">Sırrî İsim Üret</button>
       </form>
 
       <hr />
@@ -125,6 +126,81 @@
         "https://script.google.com/macros/s/AKfycbztOgIA3wNVf68cTySipaJSeUPFtqoMqaBlsVZ6FkplsFGQRmoA1DZ6HBE2a4MOcg8/exec";
       const sheetReadUrl =
         "https://docs.google.com/spreadsheets/d/1CzdR5La3Pj8nsz2O4P2liLXE3lQkCMHaXyQAYuIRUcc/gviz/tq?tqx=out:json";
+
+      function mistikKodAdiUret() {
+        const unvanlar = [
+          "Şemsi",
+          "Hâce",
+          "Sîrrî",
+          "Zâhir",
+          "Fahri",
+          "Kemâl",
+          "Cemâl",
+          "Tâhir",
+          "Şeyh",
+          "Halîl",
+          "Seyyid",
+          "Vecdî",
+          "Nurî",
+          "Hakîm",
+          "Celâlî",
+          "Miftâh",
+          "Sakîn",
+          "Gavs",
+          "Vâhid",
+          "Bedr",
+          "Seyyah",
+          "Sûfî",
+          "Münzevî",
+          "Kevserî",
+          "Lâtîf",
+          "Ebû’l-Hikem",
+          "Râmî",
+          "Uryân",
+          "Bînevâ",
+        ];
+
+        const isimler = [
+          "Hafî",
+          "Revnak",
+          "Binser",
+          "Nûranî",
+          "Zehrân",
+          "Lâmî",
+          "Sâmid",
+          "Yegâh",
+          "Ferhâtî",
+          "Mehcûr",
+          "Kâmil",
+          "Gaybî",
+          "Sefînî",
+          "Ulûmî",
+          "Zevkî",
+          ,
+          "Fânî",
+          "Necmî",
+          "Mestûr",
+          "Râgıb",
+          "Zemînî",
+          "Bâkî",
+          "Nâhid",
+          "Mevhum",
+          "Mutlakî",
+          "Rûhânî",
+          "Kalemî",
+          "Gubârî",
+          "Sırçevî",
+        ];
+
+        const unvan = unvanlar[Math.floor(Math.random() * unvanlar.length)];
+        const isim = isimler[Math.floor(Math.random() * isimler.length)];
+        return `${unvan} ${isim}`;
+      }
+      document
+        .getElementById("isimUret")
+        .addEventListener("click", function (e) {
+          document.getElementById("isim").value = mistikKodAdiUret();
+        });
 
       // Mesaj Gönder
       document
@@ -175,14 +251,44 @@
       function createMessageDiv(data, isReply = false) {
         const div = document.createElement("div");
         div.className = isReply ? "reply" : "message";
-        div.innerHTML = `
-                <p><strong>${data.isim}</strong> <em>(${data.tarih})</em></p>
+        div.innerHTML = `<em>(${data.tarih})</em>
+                <p><strong>${data.isim}</strong> <strong><em>${rastgeleHitap()}</em></strong> </p>
                 <p>${data.mesaj}</p>
             `;
         return div;
       }
+      const unluSozler = [
+        "buyurdu ki",
+        "dedi ki",
+        "hikmet etti",
+        "şöyle seslendi",
+        "bir sır fısıldadı",
+        "nida etti",
+        "meclise hitaben dedi ki",
+        "arifâne söyledi",
+        "cevaben dedi ki",
+        "tefekkür etti ve dedi ki",
+        "hikmetle beyan etti",
+        "latif bir lisanla dedi ki",
+        "fıtrî bir ilhamla şöyle dedi",
+        "gönülden gönüle seslendi",
+        "sırr-ı ledünnî ile şöyle buyurdu",
+        "tevhid niyazıyla şöyle hitap etti",
+        "kaleminden sadır oldu ki",
+        "gönül tahtından ilan etti",
+        "mürakabe hâlinde söyledi",
+        "hâl diliyle dedi ki",
+        "mana pınarından aktı ki",
+        "vecd içinde haykırdı",
+        "hikmet defterinden bir satır sundu",
+        "lütf-u Hakk’tan döküldü ki",
+        "bir hikmet yolcusu olarak dedi ki",
+      ];
 
-      oku()
+      function rastgeleHitap() {
+        return unluSozler[Math.floor(Math.random() * unluSozler.length)];
+      }
+      oku();
       function cevapla(id, isim) {
         document.getElementById("parentId").value = id;
         document.getElementById(
