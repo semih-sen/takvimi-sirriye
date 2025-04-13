@@ -2,8 +2,107 @@
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ehli Sır Forumu</title>
-    <link rel="stylesheet" href="style.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .title {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      #mesajForm {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+        position: sticky;
+        top: 10px;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+      }
+      #mesajForm input,
+      #mesajForm textarea {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      #mesajForm textarea {
+        min-height: 100px;
+        resize: vertical;
+        max-height: 300px;
+      }
+      #mesajForm button {
+        padding: 10px 15px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+      #mesajForm button:hover {
+        background-color: #45a049;
+      }
+      hr {
+        border: 0;
+        height: 1px;
+        background: #ddd;
+        margin: 20px 0;
+      }
+      #mesajlar {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .message {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #4caf50;
+      }
+      .reply {
+        background: #f0f0f0;
+        padding: 12px;
+        border-radius: 8px;
+        margin-left: 30px;
+        border-left: 3px solid #2196f3;
+      }
+      .message p,
+      .reply p {
+        margin: 5px 0;
+      }
+      .message strong,
+      .reply strong {
+        color: #333;
+      }
+      .message em,
+      .reply em {
+        color: #666;
+        font-size: 0.9em;
+      }
+    </style>
   </head>
   <body>
     <div class="wrapper" id="forrrum">
@@ -23,9 +122,9 @@
 
     <script>
       const apiUrl =
-        "https://script.google.com/macros/s/AKfycbw7NlnAq7Noxy9j8drT7B0WALeanhtCAKA2ELsgefEwMBT0u1Fh5yWvYuOVS0TVdwU/exec"; // buraya Google Apps Script URL’ni yaz
+        "https://script.google.com/macros/s/AKfycbztOgIA3wNVf68cTySipaJSeUPFtqoMqaBlsVZ6FkplsFGQRmoA1DZ6HBE2a4MOcg8/exec";
       const sheetReadUrl =
-        "https://docs.google.com/spreadsheets/d/1CzdR5La3Pj8nsz2O4P2liLXE3lQkCMHaXyQAYuIRUcc/gviz/tq?tqx=out:json"; // Sheet herkese açık olmalı
+        "https://docs.google.com/spreadsheets/d/1CzdR5La3Pj8nsz2O4P2liLXE3lQkCMHaXyQAYuIRUcc/gviz/tq?tqx=out:json";
 
       // Mesaj Gönder
       document
@@ -38,50 +137,52 @@
               contents: {
                 isim: document.getElementById("isim").value,
                 mesaj: document.getElementById("mesaj").value,
-                
               },
             }),
+            mode: "no-cors",
             headers: {
               "Content-Type": "application/json",
-              
             },
           })
             .then((res) => res.json())
-            .then(() => location.reload());
+            .then(() => {
+              location.reload();
+              oku();
+            });
         });
+      function oku() {
+        // Mesajları Oku ve Göster
+        fetch(sheetReadUrl)
+          .then((res) => res.text())
+          .then((txt) => {
+            const json = JSON.parse(txt.substr(47).slice(0, -2));
+            const rows = json.table.rows.map((r) => ({
+              tarih: r.c[0]?.f.toString(),
+              isim: r.c[1]?.v,
+              mesaj: r.c[2]?.v,
+            }));
 
-      // Mesajları Oku ve Göster
-      fetch(sheetReadUrl)
-        .then((res) => res.text())
-        .then((txt) => {
-          const json = JSON.parse(txt.substr(47).slice(0, -2));
-         
-          const rows = json.table.rows.map((r) => ({
-            tarih: r.c[0]?.f.toString(),
-            isim: r.c[1]?.v,
-            mesaj: r.c[2]?.v,
-          }));
+            const container = document.getElementById("mesajlar");
+            container.innerHTML = ""; // Önceki mesajları temizle
 
-          const container = document.getElementById("mesajlar");
-
-          rows.forEach((msg) => {
-            const msgDiv = createMessageDiv(msg);
-
-            container.appendChild(msgDiv);
+            rows.forEach((msg) => {
+              const msgDiv = createMessageDiv(msg);
+              container.appendChild(msgDiv);
+            });
           });
-        });
+      }
 
       function createMessageDiv(data, isReply = false) {
         const div = document.createElement("div");
         div.className = isReply ? "reply" : "message";
         div.innerHTML = `
-        <p><strong>${data.isim}</strong> <em>(${data.tarih})</em></p>
-        <p>${data.mesaj}</p>
-        
-      `;
+                <p><strong>${data.isim}</strong> <em>(${data.tarih})</em></p>
+                <p>${data.mesaj}</p>
+            `;
         return div;
       }
 
+      oku()
       function cevapla(id, isim) {
         document.getElementById("parentId").value = id;
         document.getElementById(
