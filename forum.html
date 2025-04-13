@@ -1,213 +1,269 @@
 <!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ehli Sır Forumu</title>
-    <style>
-      * {
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
-      body {
-        margin: 0;
-        padding: 20px;
-        background-color: #f5f5f5;
-      }
-      .wrapper {
-        max-width: 800px;
-        margin: 0 auto;
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-      .title {
-        text-align: center;
-        color: #333;
-        margin-bottom: 20px;
-      }
-      #mesajForm {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-bottom: 20px;
-        position: sticky;
-        top: 10px;
-        background: white;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        z-index: 100;
-      }
-      #mesajForm input,
-      #mesajForm textarea {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 16px;
-      }
-      #mesajForm textarea {
-        min-height: 100px;
-        resize: vertical;
-        max-height: 300px;
-      }
-      #mesajForm button {
-        padding: 10px 15px;
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s;
-      }
-      #mesajForm button:hover {
-        background-color: #45a049;
-      }
-      hr {
-        border: 0;
-        height: 1px;
-        background: #ddd;
-        margin: 20px 0;
-      }
-      #mesajlar {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-      .message {
-        background: #f9f9f9;
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid #4caf50;
-      }
-      .reply {
-        background: #f0f0f0;
-        padding: 12px;
-        border-radius: 8px;
-        margin-left: 30px;
-        border-left: 3px solid #2196f3;
-      }
-      .message p,
-      .reply p {
-        margin: 5px 0;
-      }
-      .message strong,
-      .reply strong {
-        color: #333;
-      }
-      .message em,
-      .reply em {
-        color: #666;
-        font-size: 0.9em;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrapper" id="forrrum">
-      <h1 class="title">Ehli Sır Forumu</h1>
 
-      <form id="mesajForm">
-        <input type="text" id="isim" placeholder="Adın" required />
-        <textarea id="mesaj" placeholder="Mesajın" required></textarea>
-        <input type="hidden" id="parentId" value="0" />
-        <button type="submit">Gönder</button>
-        <button id="isimUret" type="button">Sırrî İsim Üret</button>
-      </form>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ehli Sır Forumu</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-      <hr />
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
 
-      <div id="mesajlar"></div>
-    </div>
+    .wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
-    <script>
-      const apiUrl =
-        "https://script.google.com/macros/s/AKfycbztOgIA3wNVf68cTySipaJSeUPFtqoMqaBlsVZ6FkplsFGQRmoA1DZ6HBE2a4MOcg8/exec";
-      const sheetReadUrl =
-        "https://docs.google.com/spreadsheets/d/1CzdR5La3Pj8nsz2O4P2liLXE3lQkCMHaXyQAYuIRUcc/gviz/tq?tqx=out:json";
+    .title {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
 
-      function mistikKodAdiUret() {
-        const unvanlar = [
-          "Şemsi",
-          "Hâce",
-          "Sîrrî",
-          "Zâhir",
-          "Fahri",
-          "Kemâl",
-          "Cemâl",
-          "Tâhir",
-          "Şeyh",
-          "Halîl",
-          "Seyyid",
-          "Vecdî",
-          "Nurî",
-          "Hakîm",
-          "Celâlî",
-          "Miftâh",
-          "Sakîn",
-          "Gavs",
-          "Vâhid",
-          "Bedr",
-          "Seyyah",
-          "Sûfî",
-          "Münzevî",
-          "Kevserî",
-          "Lâtîf",
-          "Ebû’l-Hikem",
-          "Râmî",
-          "Uryân",
-          "Bînevâ",
-        ];
+    #mesajForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      position: sticky;
+      top: 10px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
 
-        const isimler = [
-          "Hafî",
-          "Revnak",
-          "Binser",
-          "Nûranî",
-          "Zehrân",
-          "Lâmî",
-          "Sâmid",
-          "Yegâh",
-          "Ferhâtî",
-          "Mehcûr",
-          "Kâmil",
-          "Gaybî",
-          "Sefînî",
-          "Ulûmî",
-          "Zevkî",
-          ,
-          "Fânî",
-          "Necmî",
-          "Mestûr",
-          "Râgıb",
-          "Zemînî",
-          "Bâkî",
-          "Nâhid",
-          "Mevhum",
-          "Mutlakî",
-          "Rûhânî",
-          "Kalemî",
-          "Gubârî",
-          "Sırçevî",
-        ];
+    #mesajForm input,
+    #mesajForm textarea {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
 
-        const unvan = unvanlar[Math.floor(Math.random() * unvanlar.length)];
-        const isim = isimler[Math.floor(Math.random() * isimler.length)];
-        return `${unvan} ${isim}`;
-      }
-      document
-        .getElementById("isimUret")
-        .addEventListener("click", function (e) {
-          document.getElementById("isim").value = mistikKodAdiUret();
-        });
+    #mesajForm textarea {
+      min-height: 100px;
+      resize: vertical;
+      max-height: 300px;
+    }
 
-      // Mesaj Gönder
-      document
-        .getElementById("mesajForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          fetch(apiUrl, {
+    #mesajForm button {
+      padding: 10px 15px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    #mesajForm button:hover {
+      background-color: #45a049;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: #ddd;
+      margin: 20px 0;
+    }
+
+    #mesajlar {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #4caf50;
+    }
+
+    .reply {
+      background: #f0f0f0;
+      padding: 12px;
+      border-radius: 8px;
+      margin-left: 30px;
+      border-left: 3px solid #2196f3;
+    }
+
+    .message p,
+    .reply p {
+      margin: 5px 0;
+    }
+
+    .message strong,
+    .reply strong {
+      color: #333;
+    }
+
+    .message em,
+    .reply em {
+      color: #666;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper" id="forrrum">
+    <h1 class="title">Ehli Sır Forumu</h1>
+
+    <form id="mesajForm">
+      <input type="text" id="isim" placeholder="Adın" required />
+      <textarea id="mesaj" placeholder="Mesajın" required></textarea>
+      <input type="hidden" id="parentId" value="0" />
+      <button type="submit">Gönder</button>
+      <button id="isimUret" type="button">Sırrî İsim Üret</button>
+    </form>
+    <p id="cooldownMessage" style="color: crimson; font-style: italic"></p>
+
+    <hr />
+
+    <div id="mesajlar"></div>
+  </div>
+
+  <script>
+    const apiUrl =
+      "https://script.google.com/macros/s/AKfycbztOgIA3wNVf68cTySipaJSeUPFtqoMqaBlsVZ6FkplsFGQRmoA1DZ6HBE2a4MOcg8/exec";
+    const sheetReadUrl =
+      "https://docs.google.com/spreadsheets/d/1CzdR5La3Pj8nsz2O4P2liLXE3lQkCMHaXyQAYuIRUcc/gviz/tq?tqx=out:json";
+
+    function mistikKodAdiUret() {
+      const unvanlar = [
+        "Şemsi",
+        "Hâce",
+        "Sîrrî",
+        "Zâhir",
+        "Fahri",
+        "Kemâl",
+        "Cemâl",
+        "Tâhir",
+        "Şeyh",
+        "Halîl",
+        "Seyyid",
+        "Vecdî",
+        "Nurî",
+        "Hakîm",
+        "Celâlî",
+        "Miftâh",
+        "Sakîn",
+        "Gavs",
+        "Vâhid",
+        "Bedr",
+        "Seyyah",
+        "Sûfî",
+        "Münzevî",
+        "Kevserî",
+        "Lâtîf",
+        "Ebû’l-Hikem",
+        "Râmî",
+        "Uryân",
+        "Bînevâ",
+      ];
+
+      const isimler = [
+        "Hafî",
+        "Revnak",
+        "Binser",
+        "Nûranî",
+        "Zehrân",
+        "Lâmî",
+        "Sâmid",
+        "Yegâh",
+        "Ferhâtî",
+        "Mehcûr",
+        "Kâmil",
+        "Gaybî",
+        "Sefînî",
+        "Ulûmî",
+        "Zevkî", ,
+        "Fânî",
+        "Necmî",
+        "Mestûr",
+        "Râgıb",
+        "Zemînî",
+        "Bâkî",
+        "Nâhid",
+        "Mevhum",
+        "Mutlakî",
+        "Rûhânî",
+        "Kalemî",
+        "Gubârî",
+        "Sırçevî",
+      ];
+
+      const unvan = unvanlar[Math.floor(Math.random() * unvanlar.length)];
+      const isim = isimler[Math.floor(Math.random() * isimler.length)];
+      return `${unvan} ${isim}`;
+    }
+    document
+      .getElementById("isimUret")
+      .addEventListener("click", function (e) {
+        document.getElementById("isim").value = mistikKodAdiUret();
+      });
+
+    // Mesaj Gönder
+
+    let cooldownSeconds = 30;
+    let interval;
+
+    function startCooldown() {
+      cooldown = true;
+      cooldownSeconds = 30;
+      document.getElementById(
+        "cooldownMessage"
+      ).innerText = `Lütfen ${cooldownSeconds} saniye bekleyiniz...`;
+
+      interval = setInterval(() => {
+        cooldownSeconds--;
+        if (cooldownSeconds <= 0) {
+          clearInterval(interval);
+          cooldown = false;
+          document.getElementById("cooldownMessage").innerText = "";
+        } else {
+          document.getElementById(
+            "cooldownMessage"
+          ).innerText = `Lütfen ${cooldownSeconds} saniye bekleyiniz...`;
+        }
+      }, 1000);
+    }
+    let cooldown = false;
+    document
+      .getElementById("mesajForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        if (cooldown) {
+          alert(
+            "Biraz sakin ol gönül eri! 30 saniye içinde tekrar mesaj gönderemezsin."
+          );
+          return;
+        }
+
+        cooldown = true;
+        startCooldown()
+        setTimeout(() => {
+          cooldown = false;
+        }, 30000); // 30 saniye
+
+        fetch(apiUrl, {
             method: "POST",
             body: JSON.stringify({
               contents: {
@@ -220,82 +276,87 @@
               "Content-Type": "application/json",
             },
           })
-            .then((res) => res.json())
-            .then(() => {
-              location.reload();
-              oku();
-            });
-        });
-      function oku() {
-        // Mesajları Oku ve Göster
-        fetch(sheetReadUrl)
-          .then((res) => res.text())
-          .then((txt) => {
-            const json = JSON.parse(txt.substr(47).slice(0, -2));
-            const rows = json.table.rows.map((r) => ({
-              tarih: r.c[0]?.f.toString(),
-              isim: r.c[1]?.v,
-              mesaj: r.c[2]?.v,
-            }));
-
-            const container = document.getElementById("mesajlar");
-            container.innerHTML = ""; // Önceki mesajları temizle
-
-            rows.forEach((msg) => {
-              const msgDiv = createMessageDiv(msg);
-              container.appendChild(msgDiv);
-            });
+          .then((res) => res.json())
+          .then(() => {
+            location.reload();
+            oku();
           });
-      }
+      });
 
-      function createMessageDiv(data, isReply = false) {
-        const div = document.createElement("div");
-        div.className = isReply ? "reply" : "message";
-        div.innerHTML = `<em>(${data.tarih})</em>
-                <p><strong>${data.isim}</strong> <strong><em>${rastgeleHitap()}</em></strong> </p>
+    function oku() {
+      // Mesajları Oku ve Göster
+      fetch(sheetReadUrl)
+        .then((res) => res.text())
+        .then((txt) => {
+          const json = JSON.parse(txt.substr(47).slice(0, -2));
+          const rows = json.table.rows.map((r) => ({
+            tarih: r.c[0]?.f.toString(),
+            isim: r.c[1]?.v,
+            mesaj: r.c[2]?.v,
+          }));
+
+          const container = document.getElementById("mesajlar");
+          container.innerHTML = ""; // Önceki mesajları temizle
+
+          rows.forEach((msg) => {
+            const msgDiv = createMessageDiv(msg);
+            container.appendChild(msgDiv);
+          });
+        });
+    }
+
+    function createMessageDiv(data, isReply = false) {
+      const div = document.createElement("div");
+      div.className = isReply ? "reply" : "message";
+      div.innerHTML = `<em>(${data.tarih})</em>
+                <p><strong>${
+                  data.isim
+                }</strong> <strong><em>${rastgeleHitap()}</em></strong> </p>
                 <p>${data.mesaj}</p>
             `;
-        return div;
-      }
-      const unluSozler = [
-        "buyurdu ki",
-        "dedi ki",
-        "hikmet etti",
-        "şöyle seslendi",
-        "bir sır fısıldadı",
-        "nida etti",
-        "meclise hitaben dedi ki",
-        "arifâne söyledi",
-        "cevaben dedi ki",
-        "tefekkür etti ve dedi ki",
-        "hikmetle beyan etti",
-        "latif bir lisanla dedi ki",
-        "fıtrî bir ilhamla şöyle dedi",
-        "gönülden gönüle seslendi",
-        "sırr-ı ledünnî ile şöyle buyurdu",
-        "tevhid niyazıyla şöyle hitap etti",
-        "kaleminden sadır oldu ki",
-        "gönül tahtından ilan etti",
-        "mürakabe hâlinde söyledi",
-        "hâl diliyle dedi ki",
-        "mana pınarından aktı ki",
-        "vecd içinde haykırdı",
-        "hikmet defterinden bir satır sundu",
-        "lütf-u Hakk’tan döküldü ki",
-        "bir hikmet yolcusu olarak dedi ki",
-      ];
+      return div;
+    }
+    const unluSozler = [
+      "buyurdu ki",
+      "dedi ki",
+      "hikmet etti",
+      "şöyle seslendi",
+      "bir sır fısıldadı",
+      "nida etti",
+      "meclise hitaben dedi ki",
+      "arifâne söyledi",
+      "cevaben dedi ki",
+      "tefekkür etti ve dedi ki",
+      "hikmetle beyan etti",
+      "latif bir lisanla dedi ki",
+      "fıtrî bir ilhamla şöyle dedi",
+      "gönülden gönüle seslendi",
+      "sırr-ı ledünnî ile şöyle buyurdu",
+      "tevhid niyazıyla şöyle hitap etti",
+      "kaleminden sadır oldu ki",
+      "gönül tahtından ilan etti",
+      "mürakabe hâlinde söyledi",
+      "hâl diliyle dedi ki",
+      "mana pınarından aktı ki",
+      "vecd içinde haykırdı",
+      "hikmet defterinden bir satır sundu",
+      "lütf-u Hakk’tan döküldü ki",
+      "bir hikmet yolcusu olarak dedi ki",
+    ];
 
-      function rastgeleHitap() {
-        return unluSozler[Math.floor(Math.random() * unluSozler.length)];
-      }
-      oku();
-      function cevapla(id, isim) {
-        document.getElementById("parentId").value = id;
-        document.getElementById(
-          "mesaj"
-        ).placeholder = `"${isim}" adlı mesaja cevap yaz...`;
-        document.getElementById("mesaj").focus();
-      }
-    </script>
-  </body>
+    function rastgeleHitap() {
+      return unluSozler[Math.floor(Math.random() * unluSozler.length)];
+    }
+    oku();
+
+    function cevapla(id, isim) {
+      document.getElementById("parentId").value = id;
+      document.getElementById(
+        "mesaj"
+      ).placeholder = `"${isim}" adlı mesaja cevap yaz...`;
+      document.getElementById("mesaj").focus();
+    }
+  </script>
+</body>
+
 </html>
