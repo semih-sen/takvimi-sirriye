@@ -23,7 +23,7 @@
 
     <script>
       const apiUrl =
-        "https://script.google.com/macros/s/AKfycbx7Ant_Go0BVT45zTJgyrVGKCHplBLBPB--wOvp9adq3-PGWmetVHBgNiMEF2mmeTI/exec"; // buraya Google Apps Script URL’ni yaz
+        "https://script.google.com/macros/s/AKfycbw7NlnAq7Noxy9j8drT7B0WALeanhtCAKA2ELsgefEwMBT0u1Fh5yWvYuOVS0TVdwU/exec"; // buraya Google Apps Script URL’ni yaz
       const sheetReadUrl =
         "https://docs.google.com/spreadsheets/d/1CzdR5La3Pj8nsz2O4P2liLXE3lQkCMHaXyQAYuIRUcc/gviz/tq?tqx=out:json"; // Sheet herkese açık olmalı
 
@@ -43,6 +43,7 @@
             }),
             headers: {
               "Content-Type": "application/json",
+              ""
             },
           })
             .then((res) => res.json())
