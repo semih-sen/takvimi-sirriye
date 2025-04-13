@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="tr">
 
 <head>
@@ -341,6 +341,506 @@
       "vecd içinde haykırdı",
       "hikmet defterinden bir satır sundu",
       "lütf-u Hakk’tan döküldü ki",
+      "bir hikmet yolcusu olarak dedi ki",
+    ];
+
+    function rastgeleHitap() {
+      return unluSozler[Math.floor(Math.random() * unluSozler.length)];
+    }
+    oku();
+
+    function cevapla(id, isim) {
+      document.getElementById("parentId").value = id;
+      document.getElementById(
+        "mesaj"
+      ).placeholder = `"${isim}" adlı mesaja cevap yaz...`;
+      document.getElementById("mesaj").focus();
+    }
+  </script>
+</body>
+
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ehli Sır Forumu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=MedievalSharp&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Merriweather', serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0a0a;
+      background-image: url('https://images.unsplash.com/photo-1518562180175-34a163b1a9a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-attachment: fixed;
+      color: #e0d6c2;
+    }
+
+    .nav-bar {
+      background: linear-gradient(to right, #1a1a1a, #2d1e0f, #1a1a1a);
+      padding: 15px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      border-bottom: 1px solid #5d3a00;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 24px;
+      color: #d4af37;
+      text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+      letter-spacing: 1px;
+    }
+
+    .nav-link {
+      color: #e0d6c2;
+      text-decoration: none;
+      font-family: 'MedievalSharp', cursive;
+      font-size: 16px;
+      padding: 8px 15px;
+      border: 1px solid #5d3a00;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      background: rgba(45, 30, 15, 0.3);
+    }
+
+    .nav-link:hover {
+      background: rgba(93, 58, 0, 0.3);
+      color: #d4af37;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+    }
+
+    .wrapper {
+      max-width: 800px;
+      margin: 20px auto;
+      background: rgba(26, 26, 26, 0.85);
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+      border: 1px solid #5d3a00;
+      backdrop-filter: blur(5px);
+    }
+
+    .title {
+      text-align: center;
+      color: #d4af37;
+      margin-bottom: 25px;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 32px;
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+      letter-spacing: 2px;
+      border-bottom: 1px solid #5d3a00;
+      padding-bottom: 15px;
+    }
+
+    #mesajForm {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 25px;
+      position: sticky;
+      top: 70px;
+      background: rgba(45, 30, 15, 0.7);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      border: 1px solid #5d3a00;
+    }
+
+    #mesajForm input,
+    #mesajForm textarea {
+      padding: 12px;
+      border: 1px solid #5d3a00;
+      border-radius: 4px;
+      font-size: 16px;
+      background: rgba(26, 26, 26, 0.8);
+      color: #e0d6c2;
+      transition: all 0.3s ease;
+    }
+
+    #mesajForm input:focus,
+    #mesajForm textarea:focus {
+      outline: none;
+      border-color: #d4af37;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+    }
+
+    #mesajForm textarea {
+      min-height: 120px;
+      resize: vertical;
+      max-height: 300px;
+    }
+
+    #mesajForm button {
+      padding: 12px 18px;
+      background: linear-gradient(to bottom, #5d3a00, #3a2200);
+      color: #e0d6c2;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      font-family: 'MedievalSharp', cursive;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    #mesajForm button:hover {
+      background: linear-gradient(to bottom, #7a4b00, #4d2e00);
+      color: #d4af37;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+    }
+
+    #isimUret {
+      background: linear-gradient(to bottom, #1e3a1a, #122810);
+    }
+
+    #isimUret:hover {
+      background: linear-gradient(to bottom, #2a4d25, #183514);
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #5d3a00, transparent);
+      margin: 25px 0;
+    }
+
+    #mesajlar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .message {
+      background: rgba(26, 26, 26, 0.7);
+      padding: 18px;
+      border-radius: 8px;
+      border-left: 4px solid #d4af37;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .message:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .reply {
+      background: rgba(45, 30, 15, 0.6);
+      padding: 15px;
+      border-radius: 8px;
+      margin-left: 40px;
+      border-left: 3px solid #7a4b00;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .message p,
+    .reply p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .message strong,
+    .reply strong {
+      color: #d4af37;
+    }
+
+    .message em,
+    .reply em {
+      color: #a89f8f;
+      font-size: 0.9em;
+      font-style: italic;
+    }
+
+    #cooldownMessage {
+      color: #c77d33;
+      font-style: italic;
+      text-align: center;
+      margin-top: 10px;
+      text-shadow: 0 0 3px rgba(199, 125, 51, 0.5);
+    }
+
+    /* Animasyonlar */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message, .reply {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    /* Mistik semboller */
+    .title::before, .title::after {
+      content: "✧";
+      margin: 0 15px;
+      color: #d4af37;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav-bar">
+    <div class="nav-container">
+      <div class="nav-title">Ehli Sır Forumu</div>
+      <a href="/index.html" class="nav-link">Ana Sayfaya Dön</a>
+    </div>
+  </div>
+
+  <div class="wrapper" id="forrrum">
+    <h1 class="title">Ehli Sır Forumu</h1>
+
+    <form id="mesajForm">
+      <input type="text" id="isim" placeholder="Adın" required />
+      <textarea id="mesaj" placeholder="Mesajın" required></textarea>
+      <input type="hidden" id="parentId" value="0" />
+      <button type="submit">Gönder</button>
+      <button id="isimUret" type="button">Sırrî İsim Üret</button>
+    </form>
+    <p id="cooldownMessage"></p>
+
+    <hr />
+
+    <div id="mesajlar"></div>
+  </div>
+
+  <script>
+    const apiUrl =
+      "https://script.google.com/macros/s/AKfycbztOgIA3wNVf68cTySipaJSeUPFtqoMqaBlsVZ6FkplsFGQRmoA1DZ6HBE2a4MOcg8/exec";
+    const sheetReadUrl =
+      "https://docs.google.com/spreadsheets/d/1CzdR5La3Pj8nsz2O4P2liLXE3lQkCMHaXyQAYuIRUcc/gviz/tq?tqx=out:json";
+
+    function mistikKodAdiUret() {
+      const unvanlar = [
+        "Şemsi",
+        "Hâce",
+        "Sîrrî",
+        "Zâhir",
+        "Fahri",
+        "Kemâl",
+        "Cemâl",
+        "Tâhir",
+        "Şeyh",
+        "Halîl",
+        "Seyyid",
+        "Vecdî",
+        "Nurî",
+        "Hakîm",
+        "Celâlî",
+        "Miftâh",
+        "Sakîn",
+        "Gavs",
+        "Vâhid",
+        "Bedr",
+        "Seyyah",
+        "Sûfî",
+        "Münzevî",
+        "Kevserî",
+        "Lâtîf",
+        "Ebû'l-Hikem",
+        "Râmî",
+        "Uryân",
+        "Bînevâ",
+      ];
+
+      const isimler = [
+        "Hafî",
+        "Revnak",
+        "Binser",
+        "Nûranî",
+        "Zehrân",
+        "Lâmî",
+        "Sâmid",
+        "Yegâh",
+        "Ferhâtî",
+        "Mehcûr",
+        "Kâmil",
+        "Gaybî",
+        "Sefînî",
+        "Ulûmî",
+        "Zevkî", ,
+        "Fânî",
+        "Necmî",
+        "Mestûr",
+        "Râgıb",
+        "Zemînî",
+        "Bâkî",
+        "Nâhid",
+        "Mevhum",
+        "Mutlakî",
+        "Rûhânî",
+        "Kalemî",
+        "Gubârî",
+        "Sırçevî",
+      ];
+
+      const unvan = unvanlar[Math.floor(Math.random() * unvanlar.length)];
+      const isim = isimler[Math.floor(Math.random() * isimler.length)];
+      return `${unvan} ${isim}`;
+    }
+    document
+      .getElementById("isimUret")
+      .addEventListener("click", function (e) {
+        document.getElementById("isim").value = mistikKodAdiUret();
+      });
+
+    // Mesaj Gönder
+
+    let cooldownSeconds = 30;
+    let interval;
+
+    function startCooldown() {
+      cooldown = true;
+      cooldownSeconds = 30;
+      document.getElementById(
+        "cooldownMessage"
+      ).innerText = `Lütfen ${cooldownSeconds} saniye bekleyiniz...`;
+
+      interval = setInterval(() => {
+        cooldownSeconds--;
+        if (cooldownSeconds <= 0) {
+          clearInterval(interval);
+          cooldown = false;
+          document.getElementById("cooldownMessage").innerText = "";
+        } else {
+          document.getElementById(
+            "cooldownMessage"
+          ).innerText = `Lütfen ${cooldownSeconds} saniye bekleyiniz...`;
+        }
+      }, 1000);
+    }
+    let cooldown = false;
+    document
+      .getElementById("mesajForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        if (cooldown) {
+          alert(
+            "Biraz sakin ol gönül eri! 30 saniye içinde tekrar mesaj gönderemezsin."
+          );
+          return;
+        }
+
+        cooldown = true;
+        startCooldown()
+        setTimeout(() => {
+          cooldown = false;
+        }, 30000); // 30 saniye
+
+        fetch(apiUrl, {
+            method: "POST",
+            body: JSON.stringify({
+              contents: {
+                isim: document.getElementById("isim").value,
+                mesaj: document.getElementById("mesaj").value,
+              },
+            }),
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((res) => res.json())
+          .then(() => {
+            location.reload();
+            oku();
+          });
+      });
+
+    function oku() {
+      // Mesajları Oku ve Göster
+      fetch(sheetReadUrl)
+        .then((res) => res.text())
+        .then((txt) => {
+          const json = JSON.parse(txt.substr(47).slice(0, -2));
+          const rows = json.table.rows.map((r) => ({
+            tarih: r.c[0]?.f.toString(),
+            isim: r.c[1]?.v,
+            mesaj: r.c[2]?.v,
+          }));
+
+          const container = document.getElementById("mesajlar");
+          container.innerHTML = ""; // Önceki mesajları temizle
+
+          rows.forEach((msg) => {
+            const msgDiv = createMessageDiv(msg);
+            container.appendChild(msgDiv);
+          });
+        });
+    }
+
+    function createMessageDiv(data, isReply = false) {
+      const div = document.createElement("div");
+      div.className = isReply ? "reply" : "message";
+      div.innerHTML = `<em>(${data.tarih})</em>
+                <p><strong>${
+                  data.isim
+                }</strong> <strong><em>${rastgeleHitap()}</em></strong> </p>
+                <p>${data.mesaj}</p>
+            `;
+      return div;
+    }
+    const unluSozler = [
+      "buyurdu ki",
+      "dedi ki",
+      "hikmet etti",
+      "şöyle seslendi",
+      "bir sır fısıldadı",
+      "nida etti",
+      "meclise hitaben dedi ki",
+      "arifâne söyledi",
+      "cevaben dedi ki",
+      "nûr çeşmesinden akıttı ki",
+      "tefekkür etti ve dedi ki",
+      "hikmetle beyan etti",
+      "latif bir lisanla dedi ki",
+      "fıtrî bir ilhamla şöyle dedi",
+      "gönülden gönüle seslendi",
+      "sırr-ı ledünnî ile şöyle buyurdu",
+      "tevhid niyazıyla şöyle hitap etti",
+      "kaleminden sadır oldu ki",
+      "gönül tahtından ilan etti",
+      "mürakabe hâlinde söyledi",
+      "hâl diliyle dedi ki",
+      "mana pınarından akıttı ki",
+      "vecd içinde haykırdı",
+      "hikmet defterinden bir satır sundu",
+      "lütf-u Hakk'tan döküldü ki",
       "bir hikmet yolcusu olarak dedi ki",
     ];
 
