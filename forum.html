@@ -640,7 +640,7 @@
 
   <script>
     const apiUrl =
-      "https://script.google.com/macros/s/AKfycbxO-KkWbTfRN_odKwLRJmJs5-UjF5_hGF8vMt21aaanQg3OLKnNIoKKGeBOU9H3NMg/exec";
+      "https://script.google.com/macros/s/AKfycbyFEazdxUut94kY-LLgYrHsr8fzd4MPw1-8YmQN3fRMpjH2w2MSKv6vIeSDVSlXAAI/exec";
     const sheetReadUrl =
       "https://docs.google.com/spreadsheets/d/1CzdR5La3Pj8nsz2O4P2liLXE3lQkCMHaXyQAYuIRUcc/gviz/tq?tqx=out:json";
 
@@ -768,13 +768,18 @@
         setTimeout(() => {
           cooldown = false;
         }, 30000); // 30 saniye
-
-        fetch(apiUrl, {
+        fetch("https://api.ipify.org?format=json")
+  .then(response => response.json())
+  .then(data => {
+    const ip = data.ip;
+    // IP ile birlikte Sheets'e gönder
+    fetch(apiUrl, {
             method: "POST",
             body: JSON.stringify({
               contents: {
                 isim: document.getElementById("isim").value,
                 mesaj: document.getElementById("mesaj").value,
+                ip: ip
               },
             }),
             mode: "no-cors",
@@ -787,6 +792,8 @@
             location.reload();
             oku();
           });
+  });
+        
       });
 
     function oku() {
